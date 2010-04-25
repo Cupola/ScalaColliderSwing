@@ -11,9 +11,10 @@ INSTALLATION
 
 The following libraries have to be downloaded and installed into the "libraries" folder:
 
-    - ScalaOSC (grab it from http://github.com/Sciss/ScalaOSC)
-    - ScalaCollider (grab it from http://github.com/Sciss/ScalaCollider)
-    - ScalaInterpreterPane (grab it from http://github.com/Sciss/ScalaInterpreterPane)
+    - ScalaOSC (http://github.com/Sciss/ScalaOSC)
+    - ScalaCollider (http://github.com/Sciss/ScalaCollider)
+    - ScalaInterpreterPane (http://github.com/Sciss/ScalaInterpreterPane)
+    - Prefuse (http://prefuse.org)
 
 Compile using the included IntelliJ IDEA 9 CE project.
 
