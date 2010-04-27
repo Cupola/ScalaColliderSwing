@@ -30,198 +30,183 @@ package de.sciss.synth.swing
 
 import java.awt.{ BorderLayout, Color }
 import java.awt.geom.Point2D
-import javax.swing.{ JFrame, JPanel, WindowConstants }
 import collection.immutable.IntMap
-import prefuse.{ Constants, Display, Visualization }
+import prefuse.{ Constants, Display }
 import prefuse.action.{ ActionList, RepaintAction }
-import prefuse.action.animate.{ ColorAnimator, LocationAnimator, QualityControlAnimator, VisibilityAnimator }
-import prefuse.action.assignment.{ ColorAction, FontAction }
-import prefuse.action.filter.FisheyeTreeFilter
-import prefuse.action.layout.CollapsedSubtreeLayout
-import prefuse.action.layout.graph.{ ForceDirectedLayout, NodeLinkTreeLayout }
-import prefuse.activity.{ Activity, SlowInSlowOutPacer }
-import prefuse.controls.{ DragControl, FocusControl, PanControl, WheelZoomControl, ZoomControl, ZoomToFitControl }
-import prefuse.data.{ Graph, Node => PNode, Tree, Tuple }
-import prefuse.data.event.TupleSetListener
-import prefuse.data.search.PrefixSearchTupleSet
-import prefuse.data.tuple.TupleSet
+import prefuse.action.animate.{ ColorAnimator, LocationAnimator, VisibilityAnimator }
+import prefuse.action.assignment.{ ColorAction }
+import prefuse.action.layout.graph.{  NodeLinkTreeLayout }
+import prefuse.controls.{ PanControl, WheelZoomControl, ZoomControl, ZoomToFitControl }
+import prefuse.data.{ Node => PNode, Tree }
+import prefuse.data.tuple.DefaultTupleSet
 import prefuse.render.{ AbstractShapeRenderer, DefaultRendererFactory, EdgeRenderer, LabelRenderer }
-import prefuse.util.{ ColorLib, FontLib, PrefuseLib }
-import prefuse.visual.{ NodeItem, VisualItem }
+import prefuse.util.{ ColorLib }
+import prefuse.visual.{ VisualItem }
 import prefuse.visual.expression.InGroupPredicate
 import prefuse.visual.sort.TreeDepthItemSorter
-import de.sciss.synth.{ Group, NodeManager, OSCNodeChange, OSCNodeGoMessage, OSCNodeEndMessage, OSCNodeMoveMessage,
-   OSCGroupInfo, OSCSynthInfo, Server, Synth }
+import de.sciss.synth.{ Group, Node, NodeManager, OSCNodeInfo, Server, Synth }
+import VisualInsertionTree._
+import javax.swing.{ JFrame, JPanel, WindowConstants }
+import java.net.URL
 
 /**
- *    @version	0.11, 24-Apr-10
+ *    @version	0.11, 27-Apr-10
  */
 class NodeTreePanel( server: Server )
 extends JPanel {
    import NodeManager._
 
-   private val label                = "name"
-   private val t                    = {
+   private val COL_LABEL            = "name"
+   private val COL_ICON             = "icon"
+   private val COL_PAUSED           = "paused"
+   val t                    = {
       val t       = new Tree
       val nodes   = t.getNodeTable()
-      PrefuseHelper.addColumn( nodes, label, label.getClass )
+      PrefuseHelper.addColumn( nodes, COL_LABEL,  classOf[ String ])
+      PrefuseHelper.addColumn( nodes, COL_ICON,   classOf[ URL ])
+      PrefuseHelper.addColumn( nodes, COL_PAUSED, classOf[ Boolean ])
+      FIELDS.foreach( PrefuseHelper.addColumn( nodes, _, classOf[ PNode ]))
       t
    }
-   private var map                  = IntMap( 0 -> t.addRoot() )
-   private val vis                  = new Visualization()
+   var map                          = IntMap( 0 -> t.addRoot() )
+   val vis                          = new InsertionTreeVis()
+   // create the tree layout action
+   private val orientation = Constants.ORIENT_LEFT_RIGHT
+   private val GROUP_TREE           = "tree"
+   private val GROUP_NODES          = "tree.nodes"
+   private val GROUP_EDGES          = "tree.edges"
+   private val GROUP_PAUSED         = "paused"
+   private val ACTION_LAYOUT        = "layout"
+   private val ACTION_LAYOUT_ANIM   = "layout-anim"
+   private val ACTION_COLOR         = "color"
+   private val ACTION_COLOR_ANIM    = "layout-anim"
+   private val FADE_TIME            = 333
+   private val urlGroupImage        = classOf[ NodeTreePanel ].getResource( "path_group_16.png" )
+   private val urlSynthImage        = classOf[ NodeTreePanel ].getResource( "path_synth_16.png" )
+
+   private val setPaused      = new DefaultTupleSet()
 
    private val nodeListener: (AnyRef) => Unit = _ match {
       case NodeGo( synth: Synth, info ) => {
-         map.get( info.parentID ).foreach( pNode => {
-            // XXX should place after pred
-            val n = t.addChild( pNode )
-            n.set( label, synth.toString )
-            map += synth.id -> n
-            vis.run( "filter" )
+         createChild( synth, info ).foreach( pNode => {
+            pNode.set( COL_LABEL, synth.id.toString )
+            pNode.set( COL_ICON, urlSynthImage )
+            initPosAndAnimate( pNode )
          })
       }
       case NodeGo( group: Group, info ) => {
-         map.get( info.parentID ).foreach( pNode => {
-            // XXX should place after pred
-            val n = t.addChild( pNode )
-            n.set( label, group.toString )
-            map += group.id -> n
-            vis.run( "filter" )
+         createChild( group, info ).foreach( pNode => {
+            pNode.set( COL_LABEL, group.id.toString )
+            pNode.set( COL_ICON, urlGroupImage )
+            initPosAndAnimate( pNode )
          })
       }
       case NodeEnd( node, info ) => {
-         map.get( node.id ).foreach( n => {
-            t.removeChild( n )
-            map -= node.id
-            vis.run( "filter" )
+         map.get( node.id ).foreach( pNode => {
+            deleteChild( node, pNode )
+            vis.run( ACTION_LAYOUT )
          })
       }
       case NodeMove( node, info ) => {
-         map.get( node.id ).foreach( nOld => {
-            t.removeChild( nOld )
-            map.get( info.parentID ).foreach( pNode => {
-               // XXX should place after pred
-               val nNew = t.addChild( pNode )
-               nNew.set( label, nOld.get( label ))
-               vis.run( "filter" )
-            })
+         map.get( node.id ).foreach( pNode => {
+            moveChild( node, pNode, info )
          })
       }
-      case Cleared => {
-         val r = t.getRoot
-         val c = r.children
-         while( c.hasNext ) {
-            t.removeChild( c.next.asInstanceOf[ PNode ])
-         }
-         map   = IntMap( 0 -> r )
-         vis.run( "filter" )
-      }
+
+      case NodeOn( node, info )  => pauseChild( node, false )
+      case NodeOff( node, info ) => pauseChild( node, true )
+      
+      case Cleared => clear
    }
 
    // ---- constructor ----
    {
-      val tree        = "tree"
-      val treeNodes   = "tree.nodes"
-      val treeEdges   = "tree.edges"
-
-//      val g = new Graph()
-//      for( i <- (0 until 3) ) {
-//          val n1 = g.addNode()
-//          val n2 = g.addNode()
-//          val n3 = g.addNode()
-//          g.addEdge( n1, n2 )
-//          g.addEdge( n1, n3 )
-//          g.addEdge( n2, n3 )
-//      }
-//      g.addEdge( 0, 3 )
-//      g.addEdge( 3, 6 )
-//      g.addEdge( 6, 0 )
-//
-////      root.setString( label, "Gugu" )
-////      testChild.setString( label, "Gugu" )
       val display = new Display( vis )
 
-      vis.add( tree, t )
+      vis.add( GROUP_TREE, t )
+      vis.addFocusGroup( GROUP_PAUSED, setPaused )
 
-      val nodeRenderer = new LabelRenderer( label )
+      val nodeRenderer = new LabelRenderer( COL_LABEL, COL_ICON )
       nodeRenderer.setRenderType( AbstractShapeRenderer.RENDER_TYPE_FILL )
       nodeRenderer.setHorizontalAlignment( Constants.LEFT )
       nodeRenderer.setRoundedCorner( 8, 8 )
+      nodeRenderer.setVerticalPadding( 2 )
       val edgeRenderer = new EdgeRenderer( Constants.EDGE_TYPE_CURVE )
 
       val rf = new DefaultRendererFactory( nodeRenderer )
-      rf.add( new InGroupPredicate( treeEdges ), edgeRenderer )
+      rf.add( new InGroupPredicate( GROUP_EDGES), edgeRenderer )
       vis.setRendererFactory( rf )
 
       // colors
 //      val nodeColor = new NodeColorAction( treeNodes )
-      val nodeColor = new ColorAction( treeNodes, VisualItem.TEXTCOLOR, ColorLib.rgb( 255, 0, 0 ))
-      val textColor = new ColorAction( treeNodes, VisualItem.TEXTCOLOR, ColorLib.rgb( 0, 0, 0 ))
-      vis.putAction( "textColor", textColor )
+      val actionNodeColor = new ColorAction( GROUP_NODES, VisualItem.FILLCOLOR, ColorLib.rgb( 200, 200, 200 ))
+      actionNodeColor.add( new InGroupPredicate( GROUP_PAUSED ), ColorLib.rgb( 200, 0, 0 ))
+      val actionTextColor = new ColorAction( GROUP_NODES, VisualItem.TEXTCOLOR, ColorLib.rgb( 0, 0, 0 ))
+//      vis.putAction( "nodeColor", actionNodeColor )
+//      vis.putAction( "textColor", actionTextColor )
 
-      val edgeColor = new ColorAction( treeEdges, VisualItem.STROKECOLOR, ColorLib.rgb( 200, 200, 200 ))
+      val actionEdgeColor = new ColorAction( GROUP_EDGES, VisualItem.STROKECOLOR, ColorLib.rgb( 200, 200, 200 ))
 
       // quick repaint
-      val repaint = new ActionList()
-      repaint.add( nodeColor )
-      repaint.add( new RepaintAction() )
-      vis.putAction( "repaint", repaint )
+      val actionColor = new ActionList()
+      actionColor.add( actionNodeColor )
+//      actionColorRepaint.add( new RepaintAction() )
+      vis.putAction( ACTION_COLOR, actionColor )
 
-      // full paint
-      val fullPaint = new ActionList()
-      fullPaint.add( nodeColor )
-      vis.putAction( "fullPaint", fullPaint )
+//      // full paint
+//      val fullPaint = new ActionList()
+//      fullPaint.add( nodeColor )
+//      vis.putAction( "fullPaint", fullPaint )
 
       // animate paint change
-      val animatePaint = new ActionList( 400 )
-      animatePaint.add( new ColorAnimator( treeNodes ))
-      animatePaint.add( new RepaintAction() )
-      vis.putAction( "animatePaint", animatePaint )
+      val animateColor = new ActionList( FADE_TIME )
+      animateColor.add( new ColorAnimator( GROUP_NODES ))
+      animateColor.add( new RepaintAction() )
+      vis.putAction( ACTION_COLOR_ANIM, animateColor )
+      vis.alwaysRunAfter( ACTION_COLOR, ACTION_COLOR_ANIM )
 
-      // create the tree layout action
-      val orientation = Constants.ORIENT_LEFT_RIGHT      
-      val treeLayout = new NodeLinkTreeLayout( tree, orientation, 50, 0, 8 )
-      treeLayout.setLayoutAnchor( new Point2D.Double( 25, 300 ))
-      treeLayout.setOrientation( orientation )
-      vis.putAction( "treeLayout", treeLayout )
+      val actionTreeLayout = new NodeLinkTreeLayout( GROUP_TREE, orientation, 32, 2, 8 )
+//      treeLayout.setLayoutAnchor( new Point2D.Double( 25, 300 ))
+//      treeLayout.setOrientation( orientation )
+//      vis.putAction( "treeLayout", actionTreeLayout )
 
-      val subLayout = new CollapsedSubtreeLayout( tree, orientation )
-      subLayout.setOrientation( orientation )
-      vis.putAction( "subLayout", subLayout )
+//      val subLayout = new CollapsedSubtreeLayout( tree, orientation )
+//      subLayout.setOrientation( orientation )
+//      vis.putAction( "subLayout", subLayout )
 
 //      val autoPan = new AutoPanAction()
 
       // create the filtering and layout
-      val filter = new ActionList()
-      filter.add( new FisheyeTreeFilter( tree, 2 ))
-      filter.add( new FontAction( treeNodes, FontLib.getFont( "Helvetica", 16 )))
-      filter.add( treeLayout )
-      filter.add( subLayout )
-      filter.add( textColor )
-      filter.add( nodeColor )
-      filter.add( edgeColor )
-      vis.putAction( "filter", filter )
+      val actionLayout = new ActionList()
+//      actionLayout.add( new FisheyeTreeFilter( tree, 2 ))
+//      actionLayout.add( new FontAction( treeNodes, FontLib.getFont( "Helvetica", 16 )))
+      actionLayout.add( actionTreeLayout )
+//      actionLayout.add( subLayout )
+      actionLayout.add( actionTextColor )
+      actionLayout.add( actionNodeColor )
+      actionLayout.add( actionEdgeColor )
+      vis.putAction( ACTION_LAYOUT, actionLayout )
 
       // animated transition
-      val animate = new ActionList( 1000 )
-      animate.setPacingFunction( new SlowInSlowOutPacer() )
-//      animate.add( autoPan )
-      animate.add( new QualityControlAnimator() )
-      animate.add( new VisibilityAnimator( tree ))
-      animate.add( new LocationAnimator( treeNodes ))
-      animate.add( new ColorAnimator( treeNodes ))
-      animate.add( new RepaintAction() )
-      vis.putAction( "animate", animate )
-      vis.alwaysRunAfter( "filter", "animate" )
+      val animateLayout = new ActionList( FADE_TIME )
+//      animateLayout.setPacingFunction( new SlowInSlowOutPacer() )
+//      animateLayout.add( autoPan )
+//      animateLayout.add( new QualityControlAnimator() )
+      animateLayout.add( new VisibilityAnimator( GROUP_TREE ))
+      animateLayout.add( new LocationAnimator( GROUP_NODES ))
+      animateLayout.add( new ColorAnimator( GROUP_NODES ))
+      animateLayout.add( new RepaintAction() )
+      vis.putAction( ACTION_LAYOUT_ANIM, animateLayout )
+      vis.alwaysRunAfter( ACTION_LAYOUT, ACTION_LAYOUT_ANIM )
 
-      // create animator for orientation changes
-      val orient = new ActionList( 2000 )
-      orient.setPacingFunction( new SlowInSlowOutPacer() )
-//      orient.add( autoPan )
-      orient.add( new QualityControlAnimator() )
-      orient.add( new LocationAnimator( treeNodes ))
-      orient.add( new RepaintAction() )
-      vis.putAction( "orient", orient )
+//      // create animator for orientation changes
+//      val orient = new ActionList( 2000 )
+//      orient.setPacingFunction( new SlowInSlowOutPacer() )
+////      orient.add( autoPan )
+//      orient.add( new QualityControlAnimator() )
+//      orient.add( new LocationAnimator( treeNodes ))
+//      orient.add( new RepaintAction() )
+//      vis.putAction( "orient", orient )
 
       // ------------------------------------------------
 
@@ -232,7 +217,8 @@ extends JPanel {
       display.addControlListener( new ZoomControl() )
       display.addControlListener( new WheelZoomControl() )
       display.addControlListener( new PanControl() )
-      display.addControlListener( new FocusControl( 1, "filter" ))
+      display.setHighQuality( true )
+//      display.addControlListener( new FocusControl( 1, "filter" ))
 
 //      registerKeyboardAction(
 //          new OrientAction(Constants.ORIENT_LEFT_RIGHT),
@@ -255,17 +241,17 @@ extends JPanel {
        edgeRenderer.setVerticalAlignment1( Constants.CENTER )
        edgeRenderer.setVerticalAlignment2( Constants.CENTER )
 
-      vis.run( "filter" )
+      vis.run( ACTION_LAYOUT )
 
-      val search = new PrefixSearchTupleSet();
-      vis.addFocusGroup( Visualization.SEARCH_ITEMS, search )
-      search.addTupleSetListener( new TupleSetListener() {
-          def tupleSetChanged( t: TupleSet, add: Array[ Tuple ], rem: Array[ Tuple ]) {
-              vis.cancel( "animatePaint" )
-              vis.run( "fullPaint" )
-              vis.run( "animatePaint" )
-          }
-      })
+//      val search = new PrefixSearchTupleSet();
+////      vis.addFocusGroup( Visualization.SEARCH_ITEMS, search )
+//      search.addTupleSetListener( new TupleSetListener() {
+//          def tupleSetChanged( t: TupleSet, add: Array[ Tuple ], rem: Array[ Tuple ]) {
+//              vis.cancel( "animatePaint" )
+//              vis.run( "fullPaint" )
+//              vis.run( "animatePaint" )
+//          }
+//      })
 
 //      vis.setValue( edges, null, VisualItem.INTERACTIVE, Boolean.FALSE )
 
@@ -276,10 +262,136 @@ extends JPanel {
       add( display, BorderLayout.CENTER )
 
       server.nodeMgr.addListener( nodeListener )
+
+//      val test = treeLayout.getLayoutRoot
+//      val ch = test.getFirstChild
+//      val st = t.getSpanningTree()
+//      println( test )
    }
 
+   private def initPosAndAnimate( pNode: PNode ) {
+      val pParent = pNode.get( PARENT ).asInstanceOf[ PNode ]
+      if( pParent != null ) {
+         val vi   = vis.getVisualItem( GROUP_TREE, pNode )
+         val vip  = vis.getVisualItem( GROUP_TREE, pParent )
+         if( vi != null && vip != null ) {
+            vi.setX( vip.getX )
+            vi.setY( vip.getY )
+         }
+      }
+      vis.run( ACTION_LAYOUT )
+   }
+
+   private def createChild( node: Node, info: OSCNodeInfo ) : Option[ PNode ] = {
+      map.get( info.parentID ).map( pParent => {
+         val pNode = t.addChild( pParent )
+         insertChild( pNode, pParent, info )
+         map += node.id -> pNode
+         pNode
+      })
+   }
+
+   private def moveChild( node: Node, pOld: PNode, info: OSCNodeInfo ) {
+      val viOld      = vis.getVisualItem( GROUP_TREE, pOld )
+      val startPos   = if( viOld != null ) Some( new Point2D.Double( viOld.getX, viOld.getY )) else None
+      val labelOld   = pOld.get( COL_LABEL )
+      val iconOld    = pOld.get( COL_ICON )
+      deleteChild( node, pOld )
+      createChild( node, info ).foreach( pNew => {
+         pNew.set( COL_LABEL, labelOld )
+         pNew.set( COL_ICON, iconOld )
+         val viNew = vis.getVisualItem( GROUP_TREE, pNew )
+         if( viNew != null ) {
+            startPos.foreach( p => { viNew.setX( p.getX ); viNew.setY( p.getY )})
+         }
+      })
+      vis.run( ACTION_LAYOUT )
+   }
+
+   private def insertChild( pNode: PNode, pParent: PNode, info: OSCNodeInfo ) {
+      val pPred = if( info.predID == -1 ) {
+         pParent.set( HEAD, pNode )
+         null
+      } else {
+//         pParent.get( HEAD ).asInstanceOf[ PNode ]
+         map.get( info.predID ) orNull
+      }
+      if( pPred != null ) {
+         pPred.set( SUCC, pNode )
+         pNode.set( PRED, pPred )
+      }
+      val pSucc = if( info.succID == -1 ) {
+         pParent.set( TAIL, pNode )
+         null
+      } else {
+//         pParent.get( TAIL ).asInstanceOf[ PNode ]
+         map.get( info.succID ) orNull
+      }
+      if( pSucc != null ) {
+         pNode.set( SUCC, pSucc )
+         pSucc.set( PRED, pNode )
+      }
+      pNode.set( PARENT, pParent )
+   }
+
+   private def deleteChild( node: Node, pNode: PNode ) {
+      removeChild( pNode )
+      // note: we need to update the graph structure first,
+      // because after calling Tree->removeChild, it is
+      // not allowed to call get on the PNode any more.
+      t.removeChild( pNode )
+      map -= node.id
+//      pNode.set( PARENT, null )
+//      pNode.set( PRED, null )
+//      pNode.set( SUCC, null )
+//      pNode.set( HEAD, null )
+//      pNode.set( TAIL, null )
+   }
+
+   private def removeChild( pNode: PNode ) {
+      val pPred   = pNode.get( PRED ).asInstanceOf[ PNode ]
+      val pSucc   = pNode.get( SUCC ).asInstanceOf[ PNode ]
+      val pParent = pNode.get( PARENT ).asInstanceOf[ PNode ]
+      if( pPred == null ) {
+         if( pParent != null ) pParent.set( HEAD, pSucc )
+      } else {
+         pPred.set( SUCC, pSucc )
+      }
+      if( pSucc == null ) {
+         if( pParent != null ) pParent.set( TAIL, pPred )
+      } else {
+         pSucc.set( PRED, pPred )
+      }
+   }
+
+   private def pauseChild( node: Node, onOff: Boolean ) {
+      map.get( node.id ).foreach( pNode => {
+//println( "AQUI " + onOff )
+         val vi = vis.getVisualItem( GROUP_NODES, pNode )
+         if( vi != null ) {
+            if( onOff) {
+               setPaused.addTuple( vi )
+            } else {
+               setPaused.removeTuple( vi )
+            }
+            vis.run( ACTION_COLOR )
+         }
+      })
+   }
+
+   private def clear {
+      setPaused.clear
+      val r = t.getRoot
+      val c = r.children
+      while( c.hasNext ) {
+         t.removeChild( c.next.asInstanceOf[ PNode ])
+      }
+      map   = IntMap( 0 -> r )
+      vis.run( ACTION_LAYOUT )
+   }
+      
 	def makeWindow: JFrame = {
-		val frame = new JFrame( "Nodes" )
+		val frame = new JFrame( "Nodes (" + server.name + ")" )
 //		frame.setResizable( false )
 		frame.setDefaultCloseOperation( WindowConstants.DO_NOTHING_ON_CLOSE )
 		frame.getContentPane.add( this )

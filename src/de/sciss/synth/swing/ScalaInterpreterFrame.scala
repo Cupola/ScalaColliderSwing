@@ -36,7 +36,7 @@ import tools.nsc.Interpreter
 /**
  *    @version 0.11, 11-Apr-10
  */
-class ScalaInterpreterFrame( s: Server )
+class ScalaInterpreterFrame( s: Server, ntp: NodeTreePanel )
 extends JFrame( "Scala Interpreter" ) {
 
    // ---- constructor ----
@@ -71,6 +71,12 @@ x.set( "freq2" -> 222.2f )
 x.set( "detune" -> 0.44f )
 
 s.freeAll
+
+x.moveAfter( s )  // note: s expands to s.defaultGroup
+x.moveToHead( s )
+
+x.run( false )
+x.run( true )
 """
 
       ip.initialCode = Some(
@@ -85,6 +91,7 @@ import de.sciss.synth.swing._
 
       ip.bindingsCreator = Some( (in: Interpreter ) => {
          in.bind( "s", classOf[ Server ].getName, s )
+         in.bind( "ntp", classOf[ NodeTreePanel ].getName, ntp )
       })
 
       val lp = new LogPane

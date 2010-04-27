@@ -34,14 +34,15 @@ object ScalaColliderSwing extends Runnable {
    def main( args: Array[ String ]) {
       EventQueue.invokeLater( this )
    }
-
+                                                                                                                  
    def run {
       val s = new SwingServer( "Default" )
       s.options.programPath.value = "/Users/rutz/Documents/devel/fromSVN/SuperCollider3/common/build/scsynth"
       val sspw = new ServerStatusPanel( s ).makeWindow
-      val sif  = new ScalaInterpreterFrame( s )
+      val ntp  = new NodeTreePanel( s )
+      val sif  = new ScalaInterpreterFrame( s, ntp )
       sif.setLocation( sspw.getX + sspw.getWidth + 32, sif.getY )
-      val ntpw = new NodeTreePanel( s ).makeWindow
+      val ntpw = ntp.makeWindow
       ntpw.setLocation( sspw.getX, sspw.getY + sspw.getHeight + 32 )
 
       sspw.setVisible( true )

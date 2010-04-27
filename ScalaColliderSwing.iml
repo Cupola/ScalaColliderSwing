@@ -28,6 +28,15 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
+          <root url="jar://$MODULE_DIR$/libraries/prefuse.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
           <root url="jar://$MODULE_DIR$/libraries/ScalaCollider.jar!/" />
         </CLASSES>
         <JAVADOC />
@@ -43,19 +52,10 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library" scope="RUNTIME">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/libraries/ScalaOSC.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/libraries/prefuse.jar!/" />
+          <root url="jar://$MODULE_DIR$/libraries/ScalaOSC.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
