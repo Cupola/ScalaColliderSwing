@@ -31,6 +31,11 @@ package de.sciss.synth.swing
 import java.awt.EventQueue
 
 object ScalaColliderSwing extends Runnable {
+   val name          = "ScalaCollider-Swing"
+   val version       = 0.11
+   val copyright     = "(C)opyright 2008-2010 Hanns Holger Rutz"
+   def versionString = (version + 0.001).toString.substring( 0, 4 )
+
    def main( args: Array[ String ]) {
       EventQueue.invokeLater( this )
    }

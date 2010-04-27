@@ -55,15 +55,15 @@ import java.net.URL
 class NodeTreePanel( server: Server )
 extends JPanel {
    import NodeManager._
+   import MyLabelRenderer._
 
    private val COL_LABEL            = "name"
-   private val COL_ICON             = "icon"
    private val COL_PAUSED           = "paused"
    val t                    = {
       val t       = new Tree
       val nodes   = t.getNodeTable()
       PrefuseHelper.addColumn( nodes, COL_LABEL,  classOf[ String ])
-      PrefuseHelper.addColumn( nodes, COL_ICON,   classOf[ URL ])
+      PrefuseHelper.addColumn( nodes, COL_ICON,   classOf[ String ])
       PrefuseHelper.addColumn( nodes, COL_PAUSED, classOf[ Boolean ])
       FIELDS.foreach( PrefuseHelper.addColumn( nodes, _, classOf[ PNode ]))
       t
@@ -81,8 +81,6 @@ extends JPanel {
    private val ACTION_COLOR         = "color"
    private val ACTION_COLOR_ANIM    = "layout-anim"
    private val FADE_TIME            = 333
-   private val urlGroupImage        = classOf[ NodeTreePanel ].getResource( "path_group_16.png" )
-   private val urlSynthImage        = classOf[ NodeTreePanel ].getResource( "path_synth_16.png" )
 
    private val setPaused      = new DefaultTupleSet()
 
@@ -90,14 +88,14 @@ extends JPanel {
       case NodeGo( synth: Synth, info ) => {
          createChild( synth, info ).foreach( pNode => {
             pNode.set( COL_LABEL, synth.id.toString )
-            pNode.set( COL_ICON, urlSynthImage )
+            pNode.set( COL_ICON, "synth" )
             initPosAndAnimate( pNode )
          })
       }
       case NodeGo( group: Group, info ) => {
          createChild( group, info ).foreach( pNode => {
             pNode.set( COL_LABEL, group.id.toString )
-            pNode.set( COL_ICON, urlGroupImage )
+            pNode.set( COL_ICON, "group" )
             initPosAndAnimate( pNode )
          })
       }
@@ -126,7 +124,7 @@ extends JPanel {
       vis.add( GROUP_TREE, t )
       vis.addFocusGroup( GROUP_PAUSED, setPaused )
 
-      val nodeRenderer = new LabelRenderer( COL_LABEL, COL_ICON )
+      val nodeRenderer = new MyLabelRenderer( COL_LABEL )
       nodeRenderer.setRenderType( AbstractShapeRenderer.RENDER_TYPE_FILL )
       nodeRenderer.setHorizontalAlignment( Constants.LEFT )
       nodeRenderer.setRoundedCorner( 8, 8 )

@@ -27,11 +27,12 @@
 
 package de.sciss.synth.swing
 
-import javax.swing._
 import java.awt.GraphicsEnvironment
 import de.sciss.scalainterpreter.{ LogPane, ScalaInterpreterPane }
 import de.sciss.synth.Server
 import tools.nsc.Interpreter
+import java.io.PrintStream
+import javax.swing.{ JFrame, JSplitPane, SwingConstants, WindowConstants }
 
 /**
  *    @version 0.11, 11-Apr-10
@@ -99,6 +100,7 @@ import de.sciss.synth.swing._
       ip.out = Some( lp.writer )
       Console.setOut( lp.outputStream )
       Console.setErr( lp.outputStream )
+      System.setErr( new PrintStream( lp.outputStream ))
 
       ip.init
       val sp = new JSplitPane( SwingConstants.HORIZONTAL )

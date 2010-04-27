@@ -11,13 +11,18 @@ INSTALLATION
 
 The following libraries have to be downloaded and installed into the "libraries" folder:
 
-    - ScalaOSC (http://github.com/Sciss/ScalaOSC)
-    - ScalaCollider (http://github.com/Sciss/ScalaCollider)
-    - ScalaInterpreterPane (http://github.com/Sciss/ScalaInterpreterPane)
-    - Prefuse (http://prefuse.org)
+    - ScalaOSC.jar -> http://github.com/Sciss/ScalaOSC
+    - ScalaCollider.jar -> http://github.com/Sciss/ScalaCollider
+    - ScalaInterpreterPane.jar -> http://github.com/Sciss/ScalaInterpreterPane
+    - prefuse.jar -> http://prefuse.org
 
-Compile using the included IntelliJ IDEA 9 CE project.
+COMPILATION
 
-RUNNING
+Compile using the included IntelliJ IDEA 9 CE project. The ant build script can be used to create a
+plain jar (target "jar"), a full jar including all libraries and scala itself, in order to have a
+double-clickable standalone jar (target "standalone"), and to update the included Mac OS X
+application bundle (target "osx-app"). They require that the shell environment variable SCALA_HOME
+has been properly set. Example:
 
-"ScalaColliderSwing.command" should be a double-clickable shell script (on Mac; on Linux you should be able to run it with bash). It will launch the front-end (assuming that $SCALA_HOME was set).
+$ ant standalone
+$ java -jar ScalaColliderSwing-full.jar
