@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="5caeb2ec-9cb2-4170-9696-5224f41c0e3c" name="Default" comment="" />
-    <ignored path=".idea/workspace.xml" />
     <ignored path="ScalaColliderSwing.iws" />
+    <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,8 +66,8 @@
       <property name="field_breakpoints_groupByClasses" value="true" />
       <property name="method_breakpoints_groupByClasses" value="true" />
       <property name="exception_breakpoints_viewId" value="TABLE" />
-      <property name="exception_breakpoints_groupByClasses" value="true" />
       <property name="field_breakpoints_viewId" value="TABLE" />
+      <property name="exception_breakpoints_groupByClasses" value="true" />
       <property name="method_breakpoints_groupByMethods" value="false" />
     </ui_properties>
   </component>
@@ -80,16 +80,16 @@
       <file leaf-file-name="Tree.class" pinned="false" current="false" current-in-tab="false">
         <entry file="jar://$PROJECT_DIR$/libraries/prefuse.jar!/prefuse/data/Tree.class">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="49" column="29" selection-start="2093" selection-end="2093" vertical-scroll-proportion="-5.2083335">
+            <state line="49" column="29" selection-start="2093" selection-end="2093" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NodeTreePanel.scala" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="NodeTreePanel.scala" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/de/sciss/synth/swing/NodeTreePanel.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="65" column="65" selection-start="2507" selection-end="2507" vertical-scroll-proportion="0.4334086">
+            <state line="65" column="65" selection-start="2507" selection-end="2507" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -98,18 +98,16 @@
       <file leaf-file-name="InsertionTreeVis.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/de/sciss/synth/swing/InsertionTreeVis.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="35" selection-start="717" selection-end="717" vertical-scroll-proportion="-5.3461537">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state line="19" column="35" selection-start="717" selection-end="717" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ScalaInterpreterFrame.scala" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="ScalaInterpreterFrame.scala" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/de/sciss/synth/swing/ScalaInterpreterFrame.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="36" column="121" selection-start="1271" selection-end="1271" vertical-scroll-proportion="0.0">
+            <state line="31" column="17" selection-start="1124" selection-end="1124" vertical-scroll-proportion="0.49113232">
               <folding />
             </state>
           </provider>
@@ -118,7 +116,7 @@
       <file leaf-file-name="build.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/build.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="0" selection-start="256" selection-end="256" vertical-scroll-proportion="-2.4347825">
+            <state line="7" column="0" selection-start="256" selection-end="256" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -137,9 +135,7 @@
         <entry file="file://$PROJECT_DIR$/src/de/sciss/synth/swing/VisualInsertionTree.java">
           <provider selected="true" editor-type-id="text-editor">
             <state line="25" column="31" selection-start="913" selection-end="913" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -165,7 +161,7 @@
       <file leaf-file-name="TreeLayout.class" pinned="false" current="false" current-in-tab="false">
         <entry file="jar://$PROJECT_DIR$/libraries/prefuse.jar!/prefuse/action/layout/graph/TreeLayout.class">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="35" selection-start="534" selection-end="534" vertical-scroll-proportion="-8.125">
+            <state line="14" column="35" selection-start="534" selection-end="534" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -195,8 +191,8 @@
         <option value="$PROJECT_DIR$/build.xml" />
         <option value="$PROJECT_DIR$/src/de/sciss/synth/swing/MyImageFactory.java" />
         <option value="$PROJECT_DIR$/src/de/sciss/synth/swing/MyLabelRenderer.scala" />
-        <option value="$PROJECT_DIR$/src/de/sciss/synth/swing/ScalaInterpreterFrame.scala" />
         <option value="$PROJECT_DIR$/src/de/sciss/synth/swing/NodeTreePanel.scala" />
+        <option value="$PROJECT_DIR$/src/de/sciss/synth/swing/ScalaInterpreterFrame.scala" />
       </list>
     </option>
   </component>
@@ -235,6 +231,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -273,9 +270,8 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="Favorites" />
-      <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -291,9 +287,9 @@
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="dynamic.classpath" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="dynamic.classpath" value="false" />
   </component>
   <component name="RunManager" selected="Application.ScalaColliderSwing">
     <configuration default="true" type="Remote" factoryName="Remote">
@@ -484,7 +480,7 @@
     <supportedVersion>125</supportedVersion>
   </component>
   <component name="ToolWindowManager">
-    <frame x="17" y="22" width="1377" height="876" extended-state="0" />
+    <frame x="53" y="22" width="1377" height="876" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -499,7 +495,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21837349" sideWeight="0.6624041" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3286445" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286445" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -544,116 +540,92 @@
   <component name="editorHistoryManager">
     <entry file="jar:///System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Classes/classes.jar!/java/lang/String.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="108" column="15" selection-start="4185" selection-end="4185" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="108" column="15" selection-start="4185" selection-end="4185" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="jar:///System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Classes/alt-rt.jar!/java/util/HashMap.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="63" column="39" selection-start="2421" selection-end="2421" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="63" column="39" selection-start="2421" selection-end="2421" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="jar:///System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Classes/alt-rt.jar!/java/util/LinkedHashMap.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="13" selection-start="1005" selection-end="1005" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="26" column="13" selection-start="1005" selection-end="1005" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="jar://$PROJECT_DIR$/libraries/prefuse.jar!/prefuse/Visualization.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="91" column="39" selection-start="5850" selection-end="5850" vertical-scroll-proportion="-5.2083335">
-          <folding />
-        </state>
+        <state line="91" column="39" selection-start="5850" selection-end="5850" vertical-scroll-proportion="-5.2083335" />
       </provider>
     </entry>
     <entry file="jar:///System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Classes/classes.jar!/java/lang/Math.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="76" column="22" selection-start="2697" selection-end="2697" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="76" column="22" selection-start="2697" selection-end="2697" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="jar://$PROJECT_DIR$/libraries/prefuse.jar!/prefuse/data/tuple/TupleManager.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="30" selection-start="791" selection-end="791" vertical-scroll-proportion="-5.2083335">
-          <folding />
-        </state>
+        <state line="19" column="30" selection-start="791" selection-end="791" vertical-scroll-proportion="-5.2083335" />
       </provider>
     </entry>
     <entry file="jar://$PROJECT_DIR$/libraries/prefuse.jar!/prefuse/data/Tree.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="49" column="29" selection-start="2093" selection-end="2093" vertical-scroll-proportion="-5.2083335">
+        <state line="49" column="29" selection-start="2093" selection-end="2093" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$PROJECT_DIR$/libraries/prefuse.jar!/prefuse/action/layout/graph/TreeLayout.class">
+    <entry file="file://$PROJECT_DIR$/src/de/sciss/synth/swing/InsertionTreeVis.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="35" selection-start="534" selection-end="534" vertical-scroll-proportion="-8.125">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/sciss/synth/swing/ServerStatusPanel.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="95" column="0" selection-start="2942" selection-end="3145" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/sciss/synth/swing/ScalaColliderSwing.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="0" selection-start="1238" selection-end="1238" vertical-scroll-proportion="0.0">
+        <state line="19" column="35" selection-start="717" selection-end="717" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/build.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="0" selection-start="256" selection-end="256" vertical-scroll-proportion="-2.4347825">
+        <state line="7" column="0" selection-start="256" selection-end="256" vertical-scroll-proportion="0.0">
           <folding />
         </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/sciss/synth/swing/ScalaColliderSwing.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="36" column="0" selection-start="1238" selection-end="1238" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/de/sciss/synth/swing/VisualInsertionTree.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="31" selection-start="913" selection-end="913" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/sciss/synth/swing/InsertionTreeVis.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="35" selection-start="717" selection-end="717" vertical-scroll-proportion="-5.3461537">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
+        <state line="25" column="31" selection-start="913" selection-end="913" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/de/sciss/synth/swing/MyLabelRenderer.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="0" selection-start="443" selection-end="443" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="10" column="0" selection-start="443" selection-end="443" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/sciss/synth/swing/ScalaInterpreterFrame.scala">
+    <entry file="file://$PROJECT_DIR$/src/de/sciss/synth/swing/ServerStatusPanel.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="121" selection-start="1271" selection-end="1271" vertical-scroll-proportion="0.0">
+        <state line="95" column="0" selection-start="2942" selection-end="3145" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/libraries/prefuse.jar!/prefuse/action/layout/graph/TreeLayout.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="35" selection-start="534" selection-end="534" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/de/sciss/synth/swing/NodeTreePanel.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="65" column="65" selection-start="2507" selection-end="2507" vertical-scroll-proportion="0.4334086">
+        <state line="65" column="65" selection-start="2507" selection-end="2507" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/sciss/synth/swing/ScalaInterpreterFrame.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="31" column="17" selection-start="1124" selection-end="1124" vertical-scroll-proportion="0.49113232">
           <folding />
         </state>
       </provider>

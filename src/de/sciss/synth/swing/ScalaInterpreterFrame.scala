@@ -51,12 +51,12 @@ s.options.programPath.value = ".../scsynth"
 s.boot
 
 // analog bubbles
-val x = play {
+val x = {
     val f = LFSaw.kr(0.4).madd(24, LFSaw.kr(List(8, 7.23)).madd(3, 80)).midicps // glissando function
     CombN.ar(SinOsc.ar(f)*0.04, 0.2, 0.2, 4) // echoing sine wave
-}
+}.play
 
-x.free
+x.release( 10 )
 
 val df = SynthDef("AnalogBubbles") {
     val f1 = "freq1".kr(0.4)
@@ -66,18 +66,17 @@ val df = SynthDef("AnalogBubbles") {
     val x = CombN.ar(SinOsc.ar(f)*0.04, 0.2, 0.2, 4) // echoing sine wave
     Out.ar( 0, x )
 }
-val x = df.play()
-x.set( "freq1" -> 0.1f )  // todo: should support doubles
-x.set( "freq2" -> 222.2f )
-x.set( "detune" -> 0.44f )
-
-s.freeAll
+val x = df.play( args = List( "freq2" -> 222.2 ))
+x.set( "freq1" -> 0.1 )
+x.set( "detune" -> 0.44 )
 
 x.moveAfter( s )  // note: s expands to s.defaultGroup
 x.moveToHead( s )
 
 x.run( false )
 x.run( true )
+
+s.freeAll
 """
 
       ip.initialCode = Some(
