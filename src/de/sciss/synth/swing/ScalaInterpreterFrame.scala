@@ -91,7 +91,8 @@ import de.sciss.synth.swing._
 
       ip.bindingsCreator = Some( (in: Interpreter ) => {
          in.bind( "s", classOf[ Server ].getName, s )
-         in.bind( "ntp", classOf[ NodeTreePanel ].getName, ntp )
+//         in.bind( "ntp", classOf[ NodeTreePanel ].getName, ntp )
+         in.bind( "in", classOf[ Interpreter ].getName, in )
       })
 
       val lp = new LogPane
