@@ -84,38 +84,17 @@ extends JPanel {
 
    private val setPaused      = new DefaultTupleSet()
 
-   private val nodeListener: (AnyRef) => Unit = _ match {
-      case NodeGo( synth: Synth, info ) => {
-         createChild( synth, info ).foreach( pNode => {
-            pNode.set( COL_LABEL, synth.id.toString )
-            pNode.set( COL_ICON, "synth" )
-            initPosAndAnimate( pNode )
-         })
-      }
-      case NodeGo( group: Group, info ) => {
-         createChild( group, info ).foreach( pNode => {
-            pNode.set( COL_LABEL, group.id.toString )
-            pNode.set( COL_ICON, "group" )
-            initPosAndAnimate( pNode )
-         })
-      }
-      case NodeEnd( node, info ) => {
-         map.get( node.id ).foreach( pNode => {
-            deleteChild( node, pNode )
-            vis.run( ACTION_LAYOUT )
-         })
-      }
-      case NodeMove( node, info ) => {
-         map.get( node.id ).foreach( pNode => {
-            moveChild( node, pNode, info )
-         })
-      }
-
-      case NodeOn( node, info )  => pauseChild( node, false )
-      case NodeOff( node, info ) => pauseChild( node, true )
-      
-      case Cleared => clear
-   }
+   private val nodeListener: (AnyRef) => Unit = m => {
+//      assert( java.awt.EventQueue.isDispatchThread )
+      m match {
+      case NodeGo( synth: Synth, info ) => nlAddSynth( synth, info )
+      case NodeGo( group: Group, info ) => nlAddGroup( group, info )
+      case NodeEnd( node, info )        => nlRemoveNode( node, info )
+      case NodeMove( node, info )       => nlMoveChild( node, info )
+      case NodeOn( node, info )         => nlPauseChild( node, false )
+      case NodeOff( node, info )        => nlPauseChild( node, true )
+      case Cleared                      => nlClear
+   }}
 
    // ---- constructor ----
    {
@@ -149,6 +128,7 @@ extends JPanel {
       val actionColor = new ActionList()
       actionColor.add( actionNodeColor )
 //      actionColorRepaint.add( new RepaintAction() )
+//actionColor.add( new RepaintAction() )
       vis.putAction( ACTION_COLOR, actionColor )
 
 //      // full paint
@@ -183,6 +163,7 @@ extends JPanel {
       actionLayout.add( actionTextColor )
       actionLayout.add( actionNodeColor )
       actionLayout.add( actionEdgeColor )
+//actionLayout.add( new RepaintAction() )
       vis.putAction( ACTION_LAYOUT, actionLayout )
 
       // animated transition
@@ -267,51 +248,11 @@ extends JPanel {
 //      println( test )
    }
 
-   private def initPosAndAnimate( pNode: PNode ) {
-      val pParent = pNode.get( PARENT ).asInstanceOf[ PNode ]
-      if( pParent != null ) {
-         val vi   = vis.getVisualItem( GROUP_TREE, pNode )
-         val vip  = vis.getVisualItem( GROUP_TREE, pParent )
-         if( vi != null && vip != null ) {
-            vi.setX( vip.getX )
-            vi.setY( vip.getY )
-         }
-      }
-      vis.run( ACTION_LAYOUT )
-   }
-
-   private def createChild( node: Node, info: OSCNodeInfo ) : Option[ PNode ] = {
-      map.get( info.parentID ).map( pParent => {
-         val pNode = t.addChild( pParent )
-         insertChild( pNode, pParent, info )
-         map += node.id -> pNode
-         pNode
-      })
-   }
-
-   private def moveChild( node: Node, pOld: PNode, info: OSCNodeInfo ) {
-      val viOld      = vis.getVisualItem( GROUP_TREE, pOld )
-      val startPos   = if( viOld != null ) Some( new Point2D.Double( viOld.getX, viOld.getY )) else None
-      val labelOld   = pOld.get( COL_LABEL )
-      val iconOld    = pOld.get( COL_ICON )
-      deleteChild( node, pOld )
-      createChild( node, info ).foreach( pNew => {
-         pNew.set( COL_LABEL, labelOld )
-         pNew.set( COL_ICON, iconOld )
-         val viNew = vis.getVisualItem( GROUP_TREE, pNew )
-         if( viNew != null ) {
-            startPos.foreach( p => { viNew.setX( p.getX ); viNew.setY( p.getY )})
-         }
-      })
-      vis.run( ACTION_LAYOUT )
-   }
-
    private def insertChild( pNode: PNode, pParent: PNode, info: OSCNodeInfo ) {
       val pPred = if( info.predID == -1 ) {
          pParent.set( HEAD, pNode )
          null
       } else {
-//         pParent.get( HEAD ).asInstanceOf[ PNode ]
          map.get( info.predID ) orNull
       }
       if( pPred != null ) {
@@ -322,7 +263,6 @@ extends JPanel {
          pParent.set( TAIL, pNode )
          null
       } else {
-//         pParent.get( TAIL ).asInstanceOf[ PNode ]
          map.get( info.succID ) orNull
       }
       if( pSucc != null ) {
@@ -339,11 +279,6 @@ extends JPanel {
       // not allowed to call get on the PNode any more.
       t.removeChild( pNode )
       map -= node.id
-//      pNode.set( PARENT, null )
-//      pNode.set( PRED, null )
-//      pNode.set( SUCC, null )
-//      pNode.set( HEAD, null )
-//      pNode.set( TAIL, null )
    }
 
    private def removeChild( pNode: PNode ) {
@@ -362,32 +297,123 @@ extends JPanel {
       }
    }
 
-   private def pauseChild( node: Node, onOff: Boolean ) {
-      map.get( node.id ).foreach( pNode => {
-//println( "AQUI " + onOff )
-         val vi = vis.getVisualItem( GROUP_NODES, pNode )
-         if( vi != null ) {
-            if( onOff) {
-               setPaused.addTuple( vi )
-            } else {
-               setPaused.removeTuple( vi )
-            }
-            vis.run( ACTION_COLOR )
+   private def createChild( node: Node, pParent: PNode, info: OSCNodeInfo ) : PNode = {
+      val pNode = t.addChild( pParent )
+      insertChild( pNode, pParent, info )
+      map += node.id -> pNode
+      pNode
+   }
+
+   private def nlAddSynth( synth: Synth, info: OSCNodeInfo ) {
+      map.get( info.parentID ).map( pParent => {
+         vis.synchronized {
+            stopAnimation
+            val pNode = createChild( synth, pParent, info )
+            pNode.set( COL_LABEL, synth.id.toString )
+            pNode.set( COL_ICON, "synth" )
+            initPosAndAnimate( pNode )
          }
       })
    }
 
-   private def clear {
-      setPaused.clear
-      val r = t.getRoot
-      val c = r.children
-      while( c.hasNext ) {
-         t.removeChild( c.next.asInstanceOf[ PNode ])
+   private def nlAddGroup( group: Group, info: OSCNodeInfo ) {
+      map.get( info.parentID ).map( pParent => {
+         vis.synchronized {
+            stopAnimation
+            val pNode = createChild( group, pParent, info )
+            pNode.set( COL_LABEL, group.id.toString )
+            pNode.set( COL_ICON, "group" )
+            initPosAndAnimate( pNode )
+         }
+      })
+   }
+
+   private def nlRemoveNode( node: Node, info: OSCNodeInfo ) {
+      map.get( node.id ).foreach( pNode => {
+         vis.synchronized {
+            stopAnimation
+            deleteChild( node, pNode )
+            vis.run( ACTION_LAYOUT )
+         }
+      })
+   }
+
+   private def nlMoveChild( node: Node, info: OSCNodeInfo ) {
+      map.get( node.id ).foreach( pOld => {
+         vis.synchronized {
+            stopAnimation
+            val viOld      = vis.getVisualItem( GROUP_TREE, pOld )
+            val startPos   = if( viOld != null ) Some( new Point2D.Double( viOld.getX, viOld.getY )) else None
+            val labelOld   = pOld.get( COL_LABEL )
+            val iconOld    = pOld.get( COL_ICON )
+            deleteChild( node, pOld )
+            map.get( info.parentID ).map( pParent => {
+               val pNew = createChild( node, pParent, info )
+               pNew.set( COL_LABEL, labelOld )
+               pNew.set( COL_ICON, iconOld )
+               val viNew = vis.getVisualItem( GROUP_TREE, pNew )
+               if( viNew != null ) {
+                  startPos.foreach( p => { viNew.setX( p.getX ); viNew.setY( p.getY )})
+               }
+            })
+            vis.run( ACTION_LAYOUT )
+         }
+      })
+   }
+
+
+   private def nlPauseChild( node: Node, onOff: Boolean ) {
+      map.get( node.id ).foreach( pNode => {
+         vis.synchronized {
+            stopAnimation
+            val vi = vis.getVisualItem( GROUP_NODES, pNode )
+            if( vi != null ) {
+               if( onOff) {
+                  setPaused.addTuple( vi )
+               } else {
+                  setPaused.removeTuple( vi )
+               }
+               vis.run( ACTION_COLOR )
+            }
+         }
+      })
+   }
+
+   private def nlClear {
+      vis.synchronized {
+         stopAnimation
+         setPaused.clear
+         val r = t.getRoot
+
+         val c = r.children
+         while( c.hasNext ) {
+            t.removeChild( c.next.asInstanceOf[ PNode ])
+         }
+         map   = IntMap( 0 -> r )
+         vis.run( ACTION_LAYOUT )
       }
-      map   = IntMap( 0 -> r )
-      vis.run( ACTION_LAYOUT )
    }
       
+   private def initPosAndAnimate( pNode: PNode ) {
+      val pParent = pNode.get( PARENT ).asInstanceOf[ PNode ]
+      if( pParent != null ) {
+         val vi   = vis.getVisualItem( GROUP_TREE, pNode )
+         val vip  = vis.getVisualItem( GROUP_TREE, pParent )
+         if( vi != null && vip != null ) {
+            vi.setX( vip.getX )
+            vi.setY( vip.getY )
+         }
+      }
+      vis.run( ACTION_LAYOUT )
+   }
+
+   private def stopAnimation {
+//      vis.cancel( ACTION_COLOR )
+      vis.cancel( ACTION_COLOR_ANIM )
+//      vis.cancel( ACTION_LAYOUT )
+      vis.cancel( ACTION_LAYOUT_ANIM )
+   }
+
 	def makeWindow: JFrame = {
 		val frame = new JFrame( "Nodes (" + server.name + ")" )
 //		frame.setResizable( false )
