@@ -15,7 +15,7 @@ ScalaCollider-Swing currently compiles against the Scala 2.8.0.RC1 and requires 
 * @standalone@
 * @package-app@
 
-Where @standalone@ creates a fully self-contained jar (this requires that you have shell programs @unzip@ and @jar@ available), and @package-app@ updates the Mac OS X application bundle.
+Where @standalone@ creates a fully self-contained jar, and @package-app@ updates the Mac OS X application bundle.
 
 To install the dependancies, run @sbt update@ first. The dependancies "ScalaOSC":http://github.com/Sciss/ScalaOSC, "ScalaInterpreterPane":http://github.com/Sciss/ScalaInterpreterPane, and "ScalaCollider":http://github.com/Sciss/ScalaCollider currently have no repository entries. The easiest way to install them is to clone their respective gits and make them locally available through @sbt publish-local@. E.g. for ScalaOSC:
 
