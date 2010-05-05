@@ -3,15 +3,15 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleGetInfoString</key>
-	<string>ScalaCollider-Swing 0.11. Copyright © 2008-2010 by Hanns Holger Rutz. All rights reserved.</string>
+	<string>ScalaCollider-Swing 0.12. Copyright © 2008-2010 by Hanns Holger Rutz. All rights reserved.</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.11</string>
+	<string>0.12</string>
 	<key>CFBundleName</key>
 	<string>ScalaCollider-Swing</string>
 	<key>CFBundleIdentifier</key>
 	<string>de.sciss.synth.swing.ScalaColliderSwing</string>
 	<key>CFBundleVersion</key>
-	<string>0.11</string>
+	<string>0.12</string>
 	<key>CFBundleAllowMixedLocalizations</key>
 	<string>true</string>
 	<key>CFBundleExecutable</key>
@@ -43,13 +43,14 @@
 		<string>1.6+</string>
 		<key>ClassPath</key>
 		<array>
-			<string>$JAVAROOT/ScalaColliderSwing.jar</string>
+			<string>$JAVAROOT/scalacolliderswing.jar</string>
 			<string>$JAVAROOT/prefuse.jar</string>
 			<string>$JAVAROOT/scala-library.jar</string>
 			<string>$JAVAROOT/scala-compiler.jar</string>
-			<string>$JAVAROOT/ScalaCollider.jar</string>
-			<string>$JAVAROOT/ScalaOSC.jar</string>
-			<string>$JAVAROOT/ScalaInterpreterPane.jar</string>
+			<string>$JAVAROOT/scalacollider.jar</string>
+			<string>$JAVAROOT/scalaosc.jar</string>
+			<string>$JAVAROOT/scalainterpreterpane.jar</string>
+			<string>$JAVAROOT/jsyntaxpane.jar</string>
 		</array>
 	</dict>
 </dict>

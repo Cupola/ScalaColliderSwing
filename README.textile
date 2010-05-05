@@ -1,0 +1,44 @@
+h2. ScalaCollider-Swing ==<small>-- version 0.12 (built 05-may-10) --</small>==
+
+h3. statement
+
+ScalaCollider-Swing is a Swing GUI front-end for ScalaCollider. (C)opyright 2008-2010 by Hanns Holger Rutz. All rights reserved. It is released under the "GNU General Public License":http://github.com/Sciss/ScalaColliderSwing/blob/master/licenses/ScalaColliderSwing-License.txt and comes with absolutely no warranties. To contact the author, send an email to @contact at sciss.de@
+
+h3. requirements / installation
+
+ScalaCollider-Swing currently compiles against the Scala 2.8.0.RC1 and requires Java 1.6. The repository contains a project file for Intellij IDEA 9 CE, and project files for sbt. Targets for sbt:
+
+* @clean@
+* @compile@
+* @doc@
+* @package@
+* @standalone@
+* @package-app@
+
+Where @standalone@ creates a fully self-contained jar (this requires that you have shell programs @unzip@ and @jar@ available), and @package-app@ updates the Mac OS X application bundle.
+
+To install the dependancies, run @sbt update@ first. The dependancies "ScalaOSC":http://github.com/Sciss/ScalaOSC, "ScalaInterpreterPane":http://github.com/Sciss/ScalaInterpreterPane, and "ScalaCollider":http://github.com/Sciss/ScalaCollider currently have no repository entries. The easiest way to install them is to clone their respective gits and make them locally available through @sbt publish-local@. E.g. for ScalaOSC:
+
+pre. $ cd <somewhere>
+$ git clone git://github.com/Sciss/ScalaOSC.git scalaosc
+$ cd scalaosc
+$ sbt publish-local
+
+Note that due to an incompatibility between Scala 2.8.0-RC1 and sbt 0.7.3, it is not possible to run using @sbt run@. You can use the application bundle instead on OS X:
+
+pre. $ sbt package-app
+$ open ./ScalaColliderSwing.app
+
+...or create the fully self-contained (double-clickable) jar on other platforms:
+
+pre. $ sbt standalone
+$ java -jar ./ScalaColliderSwing-full.jar
+
+h3. documentation
+
+There is a small screencast intro at "www.screencast.com/t/YjUwNDZjMT":http://www.screencast.com/t/YjUwNDZjMT
+
+h3. download
+
+The current version can be downloaded from "github.com/Sciss/ScalaColliderSwing":http://github.com/Sciss/ScalaColliderSwing
+
