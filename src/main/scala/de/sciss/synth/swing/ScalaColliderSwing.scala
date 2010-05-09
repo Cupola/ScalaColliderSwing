@@ -29,7 +29,11 @@
 package de.sciss.synth.swing
 
 import java.awt.EventQueue
+import java.io.File
 
+/**
+ *    @version 0.12, 09-May-10
+ */
 object ScalaColliderSwing extends Runnable {
    val name          = "ScalaCollider-Swing"
    val version       = 0.12
@@ -41,8 +45,7 @@ object ScalaColliderSwing extends Runnable {
    }
                                                                                                                   
    def run {
-      val s = new SwingServer( "Default" )
-      s.options.programPath.value = "/Users/rutz/Documents/devel/fromSVN/SuperCollider3/common/build/scsynth"
+      val s = new SwingServer()
       val sspw = new ServerStatusPanel( s ).makeWindow
       val ntp  = new NodeTreePanel( s )
       val sif  = new ScalaInterpreterFrame( s, ntp )
