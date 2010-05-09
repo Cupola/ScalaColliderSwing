@@ -9,7 +9,7 @@
 	<key>CFBundleName</key>
 	<string>ScalaCollider-Swing</string>
 	<key>CFBundleIdentifier</key>
-	<string>de.sciss.synth.swing.ScalaColliderSwing</string>
+	<string>de.sciss.synth.swing</string>
 	<key>CFBundleVersion</key>
 	<string>0.12</string>
 	<key>CFBundleAllowMixedLocalizations</key>
