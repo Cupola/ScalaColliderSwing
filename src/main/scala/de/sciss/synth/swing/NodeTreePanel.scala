@@ -44,7 +44,8 @@ import prefuse.util.{ ColorLib }
 import prefuse.visual.{ VisualItem }
 import prefuse.visual.expression.InGroupPredicate
 import prefuse.visual.sort.TreeDepthItemSorter
-import de.sciss.synth.{ Group, Node, NodeManager, OSCNodeInfo, Server, Synth }
+import de.sciss.synth.{ Group, Node, NodeManager, Server, Synth }
+import de.sciss.synth.osc.OSCNodeInfo
 import VisualInsertionTree._
 import javax.swing.{ JFrame, JPanel, WindowConstants }
 import java.net.URL

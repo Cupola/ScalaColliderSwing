@@ -36,13 +36,13 @@ import javax.swing.{ AbstractAction, BorderFactory, Box, BoxLayout, ImageIcon, J
                     OverlayLayout, SwingConstants, WindowConstants }
 import SwingConstants._
 import javax.swing.event.{ AncestorEvent, AncestorListener }
-import scala.math._
+import math._
 
-import de.sciss.synth.{ OSCStatusReplyMessage, Server }
+import de.sciss.synth.Server
+import de.sciss.synth.osc.OSCStatusReplyMessage
 
 /**
- *	@author		Hanns Holger Rutz
- *	@version	0.11, 12-Jan-10
+ *    @version 0.11, 10-May-10
  */
 object ServerStatusPanel {
   val COUNTS      = 0x01
@@ -70,7 +70,7 @@ class ServerStatusPanel( flags: Int ) extends JPanel {
    protected def txtStop    = "Stop"  // XXX getResource
    protected def frameTitle = "Server Status"
 
-	private val lbCPU		= new CPUIndicator
+	private val lbCPU		   = new CPUIndicator
 	private val lbNumUGens	= new CountLabel
 	private val lbNumSynths	= new CountLabel
 	private val lbNumGroups	= new CountLabel
