@@ -28,7 +28,7 @@
 
 package de.sciss.synth.swing
 
-import java.awt.{ BorderLayout, Color }
+import java.awt.{ BorderLayout, Color, EventQueue }
 import java.awt.geom.Point2D
 import collection.immutable.IntMap
 import prefuse.{ Constants, Display }
@@ -88,13 +88,13 @@ extends JPanel {
    private val nodeListener: (AnyRef) => Unit = m => {
 //      assert( java.awt.EventQueue.isDispatchThread )
       m match {
-      case NodeGo( synth: Synth, info ) => nlAddSynth( synth, info )
-      case NodeGo( group: Group, info ) => nlAddGroup( group, info )
-      case NodeEnd( node, info )        => nlRemoveNode( node, info )
-      case NodeMove( node, info )       => nlMoveChild( node, info )
-      case NodeOn( node, info )         => nlPauseChild( node, false )
-      case NodeOff( node, info )        => nlPauseChild( node, true )
-      case Cleared                      => nlClear
+      case NodeGo( synth: Synth, info ) => defer( nlAddSynth( synth, info ))
+      case NodeGo( group: Group, info ) => defer( nlAddGroup( group, info ))
+      case NodeEnd( node, info )        => defer( nlRemoveNode( node, info ))
+      case NodeMove( node, info )       => defer( nlMoveChild( node, info ))
+      case NodeOn( node, info )         => defer( nlPauseChild( node, false ))
+      case NodeOff( node, info )        => defer( nlPauseChild( node, true ))
+      case Cleared                      => defer( nlClear )
    }}
 
    // ---- constructor ----
@@ -247,6 +247,10 @@ extends JPanel {
 //      val ch = test.getFirstChild
 //      val st = t.getSpanningTree()
 //      println( test )
+   }
+
+   private def defer( code: => Unit ) {
+      EventQueue.invokeLater( new Runnable { def run = code })
    }
 
    private def insertChild( pNode: PNode, pParent: PNode, info: OSCNodeInfo ) {

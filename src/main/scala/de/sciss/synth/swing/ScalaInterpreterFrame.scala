@@ -35,7 +35,7 @@ import java.io.PrintStream
 import javax.swing.{ JFrame, JSplitPane, SwingConstants, WindowConstants }
 
 /**
- *    @version 0.11, 11-Apr-10
+ *    @version 0.12, 21-May-10
  */
 class ScalaInterpreterFrame( s: Server, ntp: NodeTreePanel )
 extends JFrame( "Scala Interpreter" ) {
@@ -82,17 +82,19 @@ s.freeAll
       ip.initialCode = Some(
 """
 import math._
+import de.sciss.scalaosc.{ OSCBundle, OSCMessage, OSCPacket }
 import de.sciss.synth._
 import de.sciss.synth.SC._
+import de.sciss.synth.io._
+import de.sciss.synth.osc._
 import de.sciss.synth.ugen._
-import de.sciss.synth.swing._
 """
       )
 
       ip.bindingsCreator = Some( (in: Interpreter ) => {
          in.bind( "s", classOf[ Server ].getName, s )
 //         in.bind( "ntp", classOf[ NodeTreePanel ].getName, ntp )
-         in.bind( "in", classOf[ Interpreter ].getName, in )
+//         in.bind( "in", classOf[ Interpreter ].getName, in )
       })
 
       val lp = new LogPane

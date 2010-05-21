@@ -30,6 +30,7 @@ package de.sciss.synth.swing
 
 import java.awt.EventQueue
 import java.io.File
+import de.sciss.synth.Server
 
 /**
  *    @version 0.12, 09-May-10
@@ -45,7 +46,7 @@ object ScalaColliderSwing extends Runnable {
    }
                                                                                                                   
    def run {
-      val s = new SwingServer()
+      val s = new Server() // SwingServer()
       val sspw = new ServerStatusPanel( s ).makeWindow
       val ntp  = new NodeTreePanel( s )
       val sif  = new ScalaInterpreterFrame( s, ntp )

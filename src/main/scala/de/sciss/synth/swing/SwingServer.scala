@@ -26,20 +26,20 @@
  *  Changelog:
  */
 
-package de.sciss.synth.swing
-
-import java.awt.EventQueue
-import de.sciss.synth.{ Server, ServerOptions }
-
-/**
- *    A minimal subclass that uses the java.awt.EventThread for dispatch
- *
- *    @version 0.11, 09-May-10
- */
-class SwingServer( val name: String = "localhost", val options: ServerOptions = new ServerOptions, val clientID: Int = 0 )
-extends Server {
-
-   protected def invokeOnMainThread( task: Runnable ) {
-      EventQueue.invokeLater( task )
-   }
-}
+//package de.sciss.synth.swing
+//
+//import java.awt.EventQueue
+//import de.sciss.synth.{ Server, ServerOptions }
+//
+///**
+// *    A minimal subclass that uses the java.awt.EventThread for dispatch
+// *
+// *    @version 0.11, 09-May-10
+// */
+//class SwingServer( val name: String = "localhost", val options: ServerOptions = new ServerOptions, val clientID: Int = 0 )
+//extends Server {
+//
+//   protected def invokeOnMainThread( task: Runnable ) {
+//      EventQueue.invokeLater( task )
+//   }
+//}

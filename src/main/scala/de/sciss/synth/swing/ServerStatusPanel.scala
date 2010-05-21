@@ -28,7 +28,7 @@
 
 package de.sciss.synth.swing
 
-import java.awt.{ Color, Component, Container, Dimension, FlowLayout, Font,
+import java.awt.{ Color, Component, Container, Dimension, EventQueue, FlowLayout, Font,
                  Graphics, Image, Toolkit }
 import java.awt.event.{ ActionEvent }
 import javax.swing.{ AbstractAction, BorderFactory, Box, BoxLayout, ImageIcon, JButton,
@@ -42,7 +42,7 @@ import de.sciss.synth.Server
 import de.sciss.synth.osc.OSCStatusReplyMessage
 
 /**
- *    @version 0.11, 10-May-10
+ *    @version 0.11, 20-May-10
  */
 object ServerStatusPanel {
   val COUNTS      = 0x01
@@ -235,14 +235,18 @@ class ServerStatusPanel( flags: Int ) extends JPanel {
 //	}
 
 	private def serverUpdate( msg: AnyRef ) : Unit = msg match {
-      case Server.Counts( cnt ) if isShowing => updateCounts( cnt )
-      case Server.Offline => {
+      case Server.Counts( cnt ) => if( isShowing ) defer( updateCounts( cnt )) // XXX isShowing thread-safe?
+      case Server.Offline => defer {
           clearCounts
           actionBoot.serverUpdate( msg )
       }
-      case _ => actionBoot.serverUpdate( msg )
+      case _ => defer( actionBoot.serverUpdate( msg ))
 	}
 
+   private def defer( code: => Unit ) {
+      EventQueue.invokeLater( new Runnable { def run = code })
+   }
+   
 	private def updateCounts( cnt: OSCStatusReplyMessage ) {
 		lbCPU.update( cnt.avgCPU / 100, cnt.peakCPU / 100 )
 		lbNumUGens.setText( cnt.numUGens.toString )
