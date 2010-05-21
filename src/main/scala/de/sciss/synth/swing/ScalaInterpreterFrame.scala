@@ -77,6 +77,8 @@ x.run( false )
 x.run( true )
 
 s.freeAll
+
+viewDef( df )
 """
 
       ip.initialCode = Some(
@@ -85,6 +87,7 @@ import math._
 import de.sciss.scalaosc.{ OSCBundle, OSCMessage, OSCPacket }
 import de.sciss.synth._
 import de.sciss.synth.SC._
+import de.sciss.synth.swing.SynthGraphPanel._
 import de.sciss.synth.io._
 import de.sciss.synth.osc._
 import de.sciss.synth.ugen._

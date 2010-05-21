@@ -66,8 +66,8 @@
       <property name="field_breakpoints_groupByClasses" value="true" />
       <property name="method_breakpoints_groupByClasses" value="true" />
       <property name="exception_breakpoints_viewId" value="TABLE" />
-      <property name="field_breakpoints_viewId" value="TABLE" />
       <property name="exception_breakpoints_groupByClasses" value="true" />
+      <property name="field_breakpoints_viewId" value="TABLE" />
       <property name="method_breakpoints_groupByMethods" value="false" />
     </ui_properties>
   </component>
@@ -80,16 +80,16 @@
       <file leaf-file-name="NodeTreePanel.scala" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/de/sciss/synth/swing/NodeTreePanel.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="254" column="0" selection-start="10481" selection-end="10589" vertical-scroll-proportion="0.0">
+            <state line="146" column="86" selection-start="6123" selection-end="6131" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ServerStatusPanel.scala" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/scala/de/sciss/synth/swing/ServerStatusPanel.scala">
+      <file leaf-file-name="SynthGraphPanel.scala" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/de/sciss/synth/swing/SynthGraphPanel.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="44" column="22" selection-start="1627" selection-end="1627" vertical-scroll-proportion="-10.384615">
+            <state line="266" column="68" selection-start="11132" selection-end="11132" vertical-scroll-proportion="0.563081">
               <folding />
             </state>
           </provider>
@@ -104,28 +104,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SwingServer.scala" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/scala/de/sciss/synth/swing/SwingServer.scala">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="33" selection-start="289" selection-end="289" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ScalaColliderSwing.scala" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/scala/de/sciss/synth/swing/ScalaColliderSwing.scala">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="48" column="14" selection-start="1617" selection-end="1617" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ScalaInterpreterFrame.scala" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="ScalaInterpreterFrame.scala" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/de/sciss/synth/swing/ScalaInterpreterFrame.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="39" column="114" selection-start="1367" selection-end="1367" vertical-scroll-proportion="0.4477612">
+            <state line="60" column="53" selection-start="1866" selection-end="1866" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -141,7 +123,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/de/sciss/synth/swing/VisualInsertionGraph.java" />
         <option value="$PROJECT_DIR$/src/de/sciss/synth/swing/MyVisualization.java" />
         <option value="$PROJECT_DIR$/src/de/sciss/synth/swing/VisualInsertionTree.java" />
         <option value="$PROJECT_DIR$/src/de/sciss/synth/swing/InsertionTreeVis.java" />
@@ -157,6 +138,7 @@
         <option value="$PROJECT_DIR$/src/main/scala/de/sciss/synth/swing/NodeTreePanel.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/de/sciss/synth/swing/ServerStatusPanel.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/de/sciss/synth/swing/ScalaInterpreterFrame.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/de/sciss/synth/swing/SynthGraphPanel.scala" />
       </list>
     </option>
   </component>
@@ -195,6 +177,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -245,34 +228,12 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="swing" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ScalaColliderSwing" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ScalaColliderSwing" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
+              <option name="myItemId" value="scala" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="swing" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ServerStatusPanel.scala" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -325,10 +286,23 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ScalaColliderSwing" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ScalaColliderSwing" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lib_managed" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="Favorites" />
     </panes>
   </component>
@@ -345,9 +319,9 @@
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="options.searchVisible" value="true" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="dynamic.classpath" value="false" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RunManager" selected="Application.ScalaColliderSwing">
     <configuration default="true" type="Remote" factoryName="Remote">
@@ -538,7 +512,7 @@
     <supportedVersion>125</supportedVersion>
   </component>
   <component name="ToolWindowManager">
-    <frame x="3" y="22" width="1377" height="876" extended-state="0" />
+    <frame x="15" y="22" width="1377" height="876" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -546,7 +520,7 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39897698" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3286445" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286445" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -618,12 +592,49 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/de/sciss/synth/swing/MyLabelRenderer.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="7" selection-start="142" selection-end="142" vertical-scroll-proportion="0.119521916" />
+        <state line="6" column="7" selection-start="142" selection-end="142" vertical-scroll-proportion="0.12278308">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/de/sciss/synth/swing/InsertionTreeVis.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="51" selection-start="450" selection-end="463" vertical-scroll-proportion="0.08185539">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/de/sciss/synth/swing/ScalaColliderSwing.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="48" column="14" selection-start="1617" selection-end="1617" vertical-scroll-proportion="0.45020464">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/de/sciss/synth/swing/ServerStatusPanel.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="44" column="22" selection-start="1627" selection-end="1627" vertical-scroll-proportion="-0.8007968">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/de/sciss/synth/swing/SwingServer.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="33" selection-start="289" selection-end="289" vertical-scroll-proportion="0.0">
+        <state line="8" column="33" selection-start="289" selection-end="289" vertical-scroll-proportion="0.15936255">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/de/sciss/synth/swing/NodeTreePanel.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="146" column="86" selection-start="6123" selection-end="6131" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/de/sciss/synth/swing/ScalaInterpreterFrame.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="60" column="53" selection-start="1866" selection-end="1866" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -635,30 +646,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/de/sciss/synth/swing/NodeTreePanel.scala">
+    <entry file="file://$PROJECT_DIR$/src/main/scala/de/sciss/synth/swing/SynthGraphPanel.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="254" column="0" selection-start="10481" selection-end="10589" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/de/sciss/synth/swing/ServerStatusPanel.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="22" selection-start="1627" selection-end="1627" vertical-scroll-proportion="-10.384615">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/de/sciss/synth/swing/ScalaColliderSwing.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="14" selection-start="1617" selection-end="1617" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/de/sciss/synth/swing/ScalaInterpreterFrame.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="114" selection-start="1367" selection-end="1367" vertical-scroll-proportion="0.4477612">
+        <state line="266" column="68" selection-start="11132" selection-end="11132" vertical-scroll-proportion="0.563081">
           <folding />
         </state>
       </provider>
