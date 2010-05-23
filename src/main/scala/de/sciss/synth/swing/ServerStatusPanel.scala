@@ -38,7 +38,7 @@ import SwingConstants._
 import javax.swing.event.{ AncestorEvent, AncestorListener }
 import math._
 
-import de.sciss.synth.Server
+import de.sciss.synth.{ Model, Server }
 import de.sciss.synth.osc.OSCStatusReplyMessage
 
 /**
@@ -75,6 +75,15 @@ class ServerStatusPanel( flags: Int ) extends JPanel {
 	private val lbNumSynths	= new CountLabel
 	private val lbNumGroups	= new CountLabel
 	private val lbNumDefs	= new CountLabel
+
+   private val serverUpdate: Model.Listener = {
+      case Server.Counts( cnt ) => if( isShowing ) defer( updateCounts( cnt )) // XXX isShowing thread-safe?
+      case msg @ Server.Offline => defer {
+          clearCounts
+          actionBoot.serverUpdate( msg )
+      }
+      case msg => defer( actionBoot.serverUpdate( msg ))
+   }
 
     private var serverVar: Option[ Server ] = None
     def server = serverVar
@@ -233,15 +242,6 @@ class ServerStatusPanel( flags: Int ) extends JPanel {
 //			if( srv.isDefined ) startListening
 //		}
 //	}
-
-	private def serverUpdate( msg: AnyRef ) : Unit = msg match {
-      case Server.Counts( cnt ) => if( isShowing ) defer( updateCounts( cnt )) // XXX isShowing thread-safe?
-      case Server.Offline => defer {
-          clearCounts
-          actionBoot.serverUpdate( msg )
-      }
-      case _ => defer( actionBoot.serverUpdate( msg ))
-	}
 
    private def defer( code: => Unit ) {
       EventQueue.invokeLater( new Runnable { def run = code })

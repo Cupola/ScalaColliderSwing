@@ -44,11 +44,10 @@ import prefuse.util.{ ColorLib }
 import prefuse.visual.{ VisualItem }
 import prefuse.visual.expression.InGroupPredicate
 import prefuse.visual.sort.TreeDepthItemSorter
-import de.sciss.synth.{ Group, Node, NodeManager, Server, Synth }
+import de.sciss.synth.{ Group, Model, Node, NodeManager, Server, Synth }
 import de.sciss.synth.osc.OSCNodeInfo
 import VisualInsertionTree._
 import javax.swing.{ JFrame, JPanel, WindowConstants }
-import java.net.URL
 
 /**
  *    @version	0.11, 27-Apr-10
@@ -85,9 +84,7 @@ extends JPanel {
 
    private val setPaused      = new DefaultTupleSet()
 
-   private val nodeListener: (AnyRef) => Unit = m => {
-//      assert( java.awt.EventQueue.isDispatchThread )
-      m match {
+   private val nodeListener: Model.Listener = {
       case NodeGo( synth: Synth, info ) => defer( nlAddSynth( synth, info ))
       case NodeGo( group: Group, info ) => defer( nlAddGroup( group, info ))
       case NodeEnd( node, info )        => defer( nlRemoveNode( node, info ))
@@ -95,7 +92,7 @@ extends JPanel {
       case NodeOn( node, info )         => defer( nlPauseChild( node, false ))
       case NodeOff( node, info )        => defer( nlPauseChild( node, true ))
       case Cleared                      => defer( nlClear )
-   }}
+   }
 
    // ---- constructor ----
    {
