@@ -86,7 +86,6 @@ viewDef( df )
 import math._
 import de.sciss.scalaosc.{ OSCBundle, OSCMessage, OSCPacket }
 import de.sciss.synth._
-import de.sciss.synth.SC._
 import de.sciss.synth.swing.SynthGraphPanel._
 import de.sciss.synth.io._
 import de.sciss.synth.osc._
