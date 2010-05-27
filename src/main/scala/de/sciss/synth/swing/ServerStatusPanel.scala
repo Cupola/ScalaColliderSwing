@@ -47,7 +47,7 @@ import de.sciss.synth.osc.OSCStatusReplyMessage
 object ServerStatusPanel {
   val COUNTS      = 0x01
   val BOOT_BUTTON = 0x02
-}
+}                                                                    
 
 class ServerStatusPanel( flags: Int ) extends JPanel {
   import ServerStatusPanel._
@@ -368,7 +368,7 @@ class ServerStatusPanel( flags: Int ) extends JPanel {
 
     // subclasses may override this
     protected def bootServer {
-      server.foreach( _.boot )
+//      server.foreach( _.boot )
     }
 
     // subclasses may override this

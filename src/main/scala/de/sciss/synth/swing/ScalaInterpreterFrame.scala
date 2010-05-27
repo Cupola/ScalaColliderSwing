@@ -37,15 +37,18 @@ import javax.swing.{ JFrame, JSplitPane, SwingConstants, WindowConstants }
 /**
  *    @version 0.12, 21-May-10
  */
-class ScalaInterpreterFrame( s: Server, ntp: NodeTreePanel )
+class ScalaInterpreterFrame( /* s: Server, ntp: NodeTreePanel,*/ )
 extends JFrame( "Scala Interpreter" ) {
 
+   val pane = new ScalaInterpreterPane
+   private val sync = new AnyRef
+   private var inCode: Option[ Interpreter => Unit ] = None
+   
    // ---- constructor ----
    {
       val cp = getContentPane
-      val ip = new ScalaInterpreterPane
 
-      ip.initialText = ip.initialText +
+      pane.initialText = pane.initialText +
 """
 s.options.programPath.value = ".../scsynth"
 s.boot
@@ -81,7 +84,7 @@ s.freeAll
 viewDef( df )
 """
 
-      ip.initialCode = Some(
+      pane.initialCode = Some(
 """
 import math._
 import de.sciss.scalaosc.{ OSCBundle, OSCMessage, OSCPacket }
@@ -93,22 +96,25 @@ import de.sciss.synth.ugen._
 """
       )
 
-      ip.bindingsCreator = Some( (in: Interpreter ) => {
-         in.bind( "s", classOf[ Server ].getName, s )
+      pane.bindingsCreator = Some( (in: Interpreter ) => {
+         sync.synchronized {
+            inCode.foreach( _.apply( in ))
+         }
+//         in.bind( "s", classOf[ Server ].getName, s )
 //         in.bind( "ntp", classOf[ NodeTreePanel ].getName, ntp )
 //         in.bind( "in", classOf[ Interpreter ].getName, in )
       })
 
       val lp = new LogPane
       lp.init
-      ip.out = Some( lp.writer )
+      pane.out = Some( lp.writer )
       Console.setOut( lp.outputStream )
       Console.setErr( lp.outputStream )
       System.setErr( new PrintStream( lp.outputStream ))
 
-      ip.init
+      pane.init
       val sp = new JSplitPane( SwingConstants.HORIZONTAL )
-      sp.setTopComponent( ip )
+      sp.setTopComponent( pane )
       sp.setBottomComponent( lp )
       cp.add( sp )
       val b = GraphicsEnvironment.getLocalGraphicsEnvironment.getMaximumWindowBounds
@@ -118,5 +124,13 @@ import de.sciss.synth.ugen._
 //      setLocation( x, getY )
       setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE )
 //      setVisible( true )
+   }
+
+   def withInterpreter( fun: Interpreter => Unit ) {
+      sync.synchronized {
+         pane.interpreter.map( fun( _ )) getOrElse {
+            inCode = Some( fun )
+         }
+      }
    }
 }

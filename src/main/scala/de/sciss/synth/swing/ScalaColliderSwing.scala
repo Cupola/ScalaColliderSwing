@@ -31,31 +31,50 @@ package de.sciss.synth.swing
 import java.awt.EventQueue
 import java.io.File
 import de.sciss.synth.Server
+import actors.DaemonActor
 
 /**
  *    @version 0.12, 09-May-10
  */
-object ScalaColliderSwing extends Runnable {
+object ScalaColliderSwing {
    val name          = "ScalaCollider-Swing"
-   val version       = 0.12
+   val version       = 0.13
    val copyright     = "(C)opyright 2008-2010 Hanns Holger Rutz"
    def versionString = (version + 0.001).toString.substring( 0, 4 )
 
    def main( args: Array[ String ]) {
-      EventQueue.invokeLater( this )
-   }
-                                                                                                                  
-   def run {
-      val s = new Server() // SwingServer()
-      val sspw = new ServerStatusPanel( s ).makeWindow
-      val ntp  = new NodeTreePanel( s )
-      val sif  = new ScalaInterpreterFrame( s, ntp )
-      sif.setLocation( sspw.getX + sspw.getWidth + 32, sif.getY )
-      val ntpw = ntp.makeWindow
-      ntpw.setLocation( sspw.getX, sspw.getY + sspw.getHeight + 32 )
+//      EventQueue.invokeLater( this )
+//      start
+      defer {
+         val sif  = new ScalaInterpreterFrame( /* ntp */ )
+//         sif.setLocation( sspw.getX + sspw.getWidth + 32, sif.getY )
+         sif.setVisible( true )
+         val a = new DaemonActor {
+            def act {
+               val booting = Server.boot()
+               val fut     = booting.server
+               fut.inputChannel.react {
+                  case s: Server => defer {
+                     val sspw = new ServerStatusPanel( s ).makeWindow
+                     val ntp  = new NodeTreePanel( s )
+                     val ntpw = ntp.makeWindow
+                     ntpw.setLocation( sspw.getX, sspw.getY + sspw.getHeight + 32 )
 
-      sspw.setVisible( true )
-      ntpw.setVisible( true )
-      sif.setVisible( true )
+                     sspw.setVisible( true )
+                     ntpw.setVisible( true )
+
+                     sif.withInterpreter( _.bind( "s", classOf[ Server ].getName, s ))
+                  }
+               }
+            }
+         }
+         a.start
+      }
+   }
+
+   private def defer( thunk: => Unit ) {
+      EventQueue.invokeLater( new Runnable {
+         def run = thunk
+      })
    }
 }
