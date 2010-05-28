@@ -66,8 +66,8 @@
       <property name="field_breakpoints_groupByClasses" value="true" />
       <property name="method_breakpoints_groupByClasses" value="true" />
       <property name="exception_breakpoints_viewId" value="TABLE" />
-      <property name="field_breakpoints_viewId" value="TABLE" />
       <property name="exception_breakpoints_groupByClasses" value="true" />
+      <property name="field_breakpoints_viewId" value="TABLE" />
       <property name="method_breakpoints_groupByMethods" value="false" />
     </ui_properties>
   </component>
@@ -77,10 +77,10 @@
   <component name="FileColors" enabled="true" enabledForTabs="true" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="NodeTreePanel.scala" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="NodeTreePanel.scala" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/scala/de/sciss/synth/swing/NodeTreePanel.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="44" column="118" selection-start="1816" selection-end="1816" vertical-scroll-proportion="0.0">
+            <state line="415" column="0" selection-start="15489" selection-end="15489" vertical-scroll-proportion="0.49658936">
               <folding />
             </state>
           </provider>
@@ -89,7 +89,7 @@
       <file leaf-file-name="ServerStatusPanel.scala" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/de/sciss/synth/swing/ServerStatusPanel.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="370" column="22" selection-start="11957" selection-end="11990" vertical-scroll-proportion="0.0">
+            <state line="202" column="14" selection-start="6646" selection-end="6672" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -107,25 +107,7 @@
       <file leaf-file-name="ScalaColliderSwing.scala" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/de/sciss/synth/swing/ScalaColliderSwing.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="40" column="27" selection-start="1269" selection-end="1269" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="build.properties" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/project/build.properties">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="20" selection-start="150" selection-end="150" vertical-scroll-proportion="0.15991472">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ScalaColliderSwing.scala" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/project/build/ScalaColliderSwing.scala">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="51" selection-start="550" selection-end="550" vertical-scroll-proportion="0.0">
+            <state line="32" column="59" selection-start="1121" selection-end="1121" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -160,12 +142,12 @@
         <option value="$PROJECT_DIR$/src/de/sciss/synth/swing/NodeTreePanel.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/de/sciss/synth/swing/SwingServer.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/de/sciss/synth/swing/SynthGraphPanel.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/de/sciss/synth/swing/NodeTreePanel.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/de/sciss/synth/swing/ServerStatusPanel.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/de/sciss/synth/swing/ScalaInterpreterFrame.scala" />
         <option value="$PROJECT_DIR$/project/build/ScalaColliderSwing.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/de/sciss/synth/swing/ScalaColliderSwing.scala" />
         <option value="$PROJECT_DIR$/project/build.properties" />
+        <option value="$PROJECT_DIR$/src/main/scala/de/sciss/synth/swing/ScalaColliderSwing.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/de/sciss/synth/swing/ServerStatusPanel.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/de/sciss/synth/swing/NodeTreePanel.scala" />
       </list>
     </option>
   </component>
@@ -204,7 +186,7 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
+      <pane id="Favorites" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -337,8 +319,8 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
       <pane id="Scope" />
-      <pane id="Favorites" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -354,9 +336,9 @@
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="options.searchVisible" value="true" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="dynamic.classpath" value="false" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RunManager" selected="Application.ScalaColliderSwing">
     <configuration default="true" type="Remote" factoryName="Remote">
@@ -547,25 +529,25 @@
     <supportedVersion>125</supportedVersion>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-3" y="22" width="1377" height="876" extended-state="0" />
+    <frame x="-8" y="22" width="1377" height="876" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39897698" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3286445" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2688253" sideWeight="0.6624041" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2688253" sideWeight="0.6624041" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39897698" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286445" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32992327" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3286445" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -640,47 +622,47 @@
         <state line="8" column="33" selection-start="289" selection-end="289" vertical-scroll-proportion="0.15936255" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/de/sciss/synth/swing/NodeTreePanel.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="118" selection-start="1816" selection-end="1816" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/de/sciss/synth/swing/SynthGraphPanel.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state line="266" column="68" selection-start="11132" selection-end="11132" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/de/sciss/synth/swing/ServerStatusPanel.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="370" column="22" selection-start="11957" selection-end="11990" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/de/sciss/synth/swing/ScalaInterpreterFrame.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="42" selection-start="1349" selection-end="1349" vertical-scroll-proportion="0.0">
+        <state line="39" column="42" selection-start="1349" selection-end="1349" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project/build.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="20" selection-start="150" selection-end="150" vertical-scroll-proportion="0.10231923">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/project/build/ScalaColliderSwing.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="51" selection-start="550" selection-end="550" vertical-scroll-proportion="0.0">
+        <state line="11" column="51" selection-start="550" selection-end="550" vertical-scroll-proportion="0.020891365">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/de/sciss/synth/swing/ScalaColliderSwing.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="27" selection-start="1269" selection-end="1269" vertical-scroll-proportion="0.0">
+        <state line="32" column="59" selection-start="1121" selection-end="1121" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/project/build.properties">
+    <entry file="file://$PROJECT_DIR$/src/main/scala/de/sciss/synth/swing/ServerStatusPanel.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="20" selection-start="150" selection-end="150" vertical-scroll-proportion="0.15991472">
+        <state line="202" column="14" selection-start="6646" selection-end="6672" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/de/sciss/synth/swing/NodeTreePanel.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="415" column="0" selection-start="15489" selection-end="15489" vertical-scroll-proportion="0.49658936">
           <folding />
         </state>
       </provider>

@@ -30,7 +30,7 @@ package de.sciss.synth.swing
 
 import java.awt.EventQueue
 import java.io.File
-import de.sciss.synth.Server
+import de.sciss.synth.{ BootingServer, Server }
 import actors.DaemonActor
 
 /**
@@ -47,28 +47,24 @@ object ScalaColliderSwing {
 //      start
       defer {
          val sif  = new ScalaInterpreterFrame( /* ntp */ )
-//         sif.setLocation( sspw.getX + sspw.getWidth + 32, sif.getY )
+         val ssp  = new ServerStatusPanel()
+         val sspw = ssp.makeWindow
+         val ntp  = new NodeTreePanel()
+         val ntpw = ntp.makeWindow
+         ntpw.setLocation( sspw.getX, sspw.getY + sspw.getHeight + 32 )
+         sspw.setVisible( true )
+         ntpw.setVisible( true )
+         sif.setLocation( sspw.getX + sspw.getWidth + 32, sif.getY )
          sif.setVisible( true )
-         val a = new DaemonActor {
-            def act {
-               val booting = Server.boot()
-               val fut     = booting.server
-               fut.inputChannel.react {
-                  case s: Server => defer {
-                     val sspw = new ServerStatusPanel( s ).makeWindow
-                     val ntp  = new NodeTreePanel( s )
-                     val ntpw = ntp.makeWindow
-                     ntpw.setLocation( sspw.getX, sspw.getY + sspw.getHeight + 32 )
-
-                     sspw.setVisible( true )
-                     ntpw.setVisible( true )
-
-                     sif.withInterpreter( _.bind( "s", classOf[ Server ].getName, s ))
-                  }
-               }
+         val booting = Server.boot()
+         booting.addListener {
+            case BootingServer.Running( s ) => {
+               ssp.server = Some( s )
+               ntp.server = Some( s )
+               sif.withInterpreter( _.bind( "s", classOf[ Server ].getName, s ))
             }
          }
-         a.start
+         booting.start
       }
    }
 

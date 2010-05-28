@@ -52,10 +52,17 @@ import javax.swing.{ JFrame, JPanel, WindowConstants }
 /**
  *    @version	0.11, 27-Apr-10
  */
-class NodeTreePanel( server: Server )
-extends JPanel {
+//object NodeTreePanel {
+//   def apply( server: Server ) : NodeTreePanel = {
+//
+//   }
+//}
+
+class NodeTreePanel extends JPanel {
    import NodeManager._
    import MyLabelRenderer._
+
+   protected def frameTitle = "Nodes"
 
    private val COL_LABEL            = "name"
    private val COL_PAUSED           = "paused"
@@ -238,7 +245,7 @@ extends JPanel {
       setLayout( new BorderLayout() )
       add( display, BorderLayout.CENTER )
 
-      server.nodeMgr.addListener( nodeListener )
+//      server.nodeMgr.addListener( nodeListener )
 
 //      val test = treeLayout.getLayoutRoot
 //      val ch = test.getFirstChild
@@ -395,6 +402,21 @@ extends JPanel {
          vis.run( ACTION_LAYOUT )
       }
    }
+
+   private val sync = new AnyRef
+   private var serverVar: Option[ Server ] = None
+   def server: Option[ Server ] = serverVar
+   def server_=( s: Option[ Server ]) {
+      sync.synchronized {
+         serverVar.foreach( _.nodeMgr.removeListener( nodeListener ))
+         serverVar = s
+         defer {
+            nlClear
+            updateFrameTitle
+         }
+         serverVar.foreach( _.nodeMgr.addListener( nodeListener ))
+      }
+   }
       
    private def initPosAndAnimate( pNode: PNode ) {
       val pParent = pNode.get( PARENT ).asInstanceOf[ PNode ]
@@ -416,13 +438,25 @@ extends JPanel {
       vis.cancel( ACTION_LAYOUT_ANIM )
    }
 
+   private var frame: Option[ JFrame ] = None
+
+   private def updateFrameTitle {
+      sync.synchronized {
+         frame.foreach( _.setTitle( frameTitle + serverVar.map( s => " (" + s.name + ")" ).getOrElse( "" )))
+      }
+   }
+
 	def makeWindow: JFrame = {
-		val frame = new JFrame( "Nodes (" + server.name + ")" )
-//		frame.setResizable( false )
-		frame.setDefaultCloseOperation( WindowConstants.DO_NOTHING_ON_CLOSE )
-		frame.getContentPane.add( this )
-		frame.pack()
-//		frame.setVisible( true )
-		frame
+      frame getOrElse {
+         val fr = sync.synchronized {
+            new JFrame()
+         }
+         fr.setDefaultCloseOperation( WindowConstants.DO_NOTHING_ON_CLOSE )
+         fr.getContentPane.add( this )
+         fr.pack()
+         frame = Some( fr )
+         updateFrameTitle
+         fr
+      }
 	}
 }

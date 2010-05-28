@@ -52,14 +52,16 @@ object ServerStatusPanel {
 class ServerStatusPanel( flags: Int ) extends JPanel {
   import ServerStatusPanel._
 
-    def this( s: Server, flags: Int ) {
+   def this( s: Server, flags: Int ) {
       this( flags )
       server = Some( s )
-    }
+   }
 
-    def this( s: Server ) {
+   def this( s: Server ) {
       this( s, 0x03 ) // XXX weird scala bug... does not see COUNTS and BOOT_BUTTON
-    }
+   }
+
+   def this() { this( 0x03 )}
 
    private val actionBoot   = new ActionBoot()
    private val ggBoot       = new JButton( actionBoot )
@@ -76,95 +78,92 @@ class ServerStatusPanel( flags: Int ) extends JPanel {
 	private val lbNumGroups	= new CountLabel
 	private val lbNumDefs	= new CountLabel
 
+   private val sync = new AnyRef
+
    private val serverUpdate: Model.Listener = {
-      case Server.Counts( cnt ) => if( isShowing ) defer( updateCounts( cnt )) // XXX isShowing thread-safe?
+      case Server.Counts( cnt ) => defer { if( isShowing ) updateCounts( cnt )}
       case msg @ Server.Offline => defer {
           clearCounts
           actionBoot.serverUpdate( msg )
       }
-      case msg => defer( actionBoot.serverUpdate( msg ))
+      case msg => defer { actionBoot.serverUpdate( msg )}
    }
 
     private var serverVar: Option[ Server ] = None
     def server = serverVar
     def server_=( s: Option[ Server ]) {
-       val wasListening = listening
-       if( wasListening ) stopListening
-       serverVar = s
-       updateFrameTitle
-       if( wasListening ) startListening
+       sync.synchronized {
+          val wasListening = listening
+          if( wasListening ) stopListening
+          serverVar = s
+          defer { updateFrameTitle }
+          if( wasListening ) startListening
+       }
     }
 
 	// ---- constructor ----
-	{
-		setLayout( new BoxLayout( this, BoxLayout.X_AXIS ))
+   {
+   	setLayout( new BoxLayout( this, BoxLayout.X_AXIS ))
 
-        val clz = classOf[ ServerStatusPanel ]
-        val icnGroup = new ImageIcon( clz.getResource( "path_group_16.png" ))
-        val icnSynth = new ImageIcon( clz.getResource( "path_synth_16.png" ))
-        val icnUGen  = new ImageIcon( clz.getResource( "path_ugen_16.png" ))
-        val icnDef   = new ImageIcon( clz.getResource( "path_def_16.png" ))
+      val clz = classOf[ ServerStatusPanel ]
+      val icnGroup = new ImageIcon( clz.getResource( "path_group_16.png" ))
+      val icnSynth = new ImageIcon( clz.getResource( "path_synth_16.png" ))
+      val icnUGen  = new ImageIcon( clz.getResource( "path_ugen_16.png" ))
+      val icnDef   = new ImageIcon( clz.getResource( "path_def_16.png" ))
 
-        def flushImages {
-          icnGroup.getImage.flush
-          icnSynth.getImage.flush
-          icnUGen.getImage.flush
-          icnDef.getImage.flush
-        }
+      def flushImages {
+         icnGroup.getImage.flush
+         icnSynth.getImage.flush
+         icnUGen.getImage.flush
+         icnDef.getImage.flush
+      }
 
-        def addS( c: Component, gap: Int = 4 ) {
-          add( c )
-          add( Box.createHorizontalStrut( gap ))
-        }
+      def addS( c: Component, gap: Int = 4 ) {
+         add( c )
+         add( Box.createHorizontalStrut( gap ))
+      }
 
-        if( (flags & BOOT_BUTTON) != 0 ) {
-    		ggBoot.setFocusable( false )	// prevent user from accidentally starting/stopping server
-            ggBoot.putClientProperty( "JButton.buttonType", "bevel" )
-            ggBoot.putClientProperty( "JComponent.sizeVariant", "small" )
-            ggBoot.setText( txtStop )
-            val d1 = ggBoot.getPreferredSize()
-            ggBoot.setText( txtBoot )
-            val d2 = ggBoot.getPreferredSize()
-            ggBoot.setPreferredSize( new Dimension( max( d1.width, d2.width ),
-                                                    max( d1.height, d2.height )))
+      if( (flags & BOOT_BUTTON) != 0 ) {
+         ggBoot.setFocusable( false )	// prevent user from accidentally starting/stopping server
+         ggBoot.putClientProperty( "JButton.buttonType", "bevel" )
+         ggBoot.putClientProperty( "JComponent.sizeVariant", "small" )
+         ggBoot.setText( txtStop )
+         val d1 = ggBoot.getPreferredSize()
+         ggBoot.setText( txtBoot )
+         val d2 = ggBoot.getPreferredSize()
+         ggBoot.setPreferredSize( new Dimension( max( d1.width, d2.width ),
+                                                 max( d1.height, d2.height )))
 
-            ggBusy.setIndeterminate( true )
-            val busyDim = new Dimension( 24, 24 )
-            ggBusy.setPreferredSize( busyDim )
-            ggBusy.putClientProperty( "JProgressBar.style", "circular" )
+         ggBusy.setIndeterminate( true )
+         val busyDim = new Dimension( 24, 24 )
+         ggBusy.setPreferredSize( busyDim )
+         ggBusy.putClientProperty( "JProgressBar.style", "circular" )
 
-            addS( ggBoot, 2 )
-            val busyBox = new JPanel()
-            busyBox.setLayout( new OverlayLayout( busyBox ))
-            busyBox.add( Box.createRigidArea( busyDim ))
-            busyBox.add( ggBusy )
-            addS( busyBox, 6 )
+         addS( ggBoot, 2 )
+         val busyBox = new JPanel()
+         busyBox.setLayout( new OverlayLayout( busyBox ))
+         busyBox.add( Box.createRigidArea( busyDim ))
+         busyBox.add( ggBusy )
+         addS( busyBox, 6 )
 
     		setBorder( BorderFactory.createEmptyBorder( 0, 2, 0, 2 ))
-        } else {
-    		setBorder( BorderFactory.createEmptyBorder( 1, 2, 1, 2 ))
-        }
+      } else {
+      	setBorder( BorderFactory.createEmptyBorder( 1, 2, 1, 2 ))
+      }
 
-        if( (flags & COUNTS) != 0 ) {
-    		addS( lbCPU, 8 )
-            def addCount( icn: ImageIcon, lb: JLabel, s: Int = 4 ) {
-                val lb2 = new JLabel( icn )
-                lb2.putClientProperty( "JComponent.sizeVariant", "small" )
-            	addS( lb2 )
-        		addS( lb, s )
-            }
-            addCount( icnGroup, lbNumGroups )
-            addCount( icnSynth, lbNumSynths )
-            addCount( icnUGen,  lbNumUGens )
-            addCount( icnDef,   lbNumDefs, 0 )
-        }
-
-//        serverUpdate( server.map( _.condition ) getOrElse Server.Offline )
-
-//        val fntName = if( System.getProperty( "os.name" ).indexOf( "Mac OS X" ) >= 0 )
-//          "Lucida Grande" else "SansSerif"
-//		val fntGUI = new Font( fntName, Font.PLAIN, 9 )
-//		setDeepFont( this, fntGUI )
+      if( (flags & COUNTS) != 0 ) {
+    	   addS( lbCPU, 8 )
+         def addCount( icn: ImageIcon, lb: JLabel, s: Int = 4 ) {
+            val lb2 = new JLabel( icn )
+            lb2.putClientProperty( "JComponent.sizeVariant", "small" )
+            addS( lb2 )
+            addS( lb, s )
+         }
+         addCount( icnGroup, lbNumGroups )
+         addCount( icnSynth, lbNumSynths )
+         addCount( icnUGen,  lbNumUGens )
+         addCount( icnDef,   lbNumDefs, 0 )
+      }
 
 		addAncestorListener( new AncestorListener {
 			def ancestorAdded( e: AncestorEvent ) {
@@ -182,51 +181,49 @@ class ServerStatusPanel( flags: Int ) extends JPanel {
 		})
 	}
 
-    protected def couldBoot: Boolean = server.isDefined
+   protected def couldBoot: Boolean = server.isDefined
 
-    private var frame: Option[ JFrame ] = None
+   private var frame: Option[ JFrame ] = None
 
-    private def updateFrameTitle {
-       frame.foreach( _.setTitle( if( server.isDefined ) {
-         frameTitle + " (" + server.get.name + ")"
-       } else {
-         frameTitle
-       }))
-    }
+   private def updateFrameTitle {
+      sync.synchronized {
+         frame.foreach( _.setTitle( frameTitle + serverVar.map( s => " (" + s.name + ")" ).getOrElse( "" )))
+      }
+   }
 
 	def makeWindow: JFrame = {
-        val f = frame getOrElse {
-    		val fr = new JFrame()
+      frame getOrElse {
+    	   val fr = new JFrame()
         	fr.setResizable( false )
-            fr.setDefaultCloseOperation( WindowConstants.DO_NOTHING_ON_CLOSE )
-      		fr.getContentPane.add( this )
+         fr.setDefaultCloseOperation( WindowConstants.DO_NOTHING_ON_CLOSE )
+      	fr.getContentPane.add( this )
         	fr.pack()
-            fr.setLocation( 50, 50 )
-            frame = Some( fr )
-            updateFrameTitle
-            fr
-        }
-//		f.setVisible( true )
-		f
+         fr.setLocation( 50, 50 )
+         frame = Some( fr )
+         updateFrameTitle
+         fr
+      }
 	}
 
 	private var listening = false
 
 	private def startListening {
-		if( !listening ) {
-//println("startListening")
-			listening = true
-			serverVar.foreach(_.addListener( serverUpdate ))
-            serverUpdate( server.map( _.condition ) getOrElse Server.Offline )
+      sync.synchronized {
+   		if( !listening ) {
+   			listening = true
+            serverVar.foreach(_.addListener( serverUpdate ))
+               serverUpdate( server.map( _.condition ) getOrElse Server.Offline )
+         }
 		}
 	}
 
 	private def stopListening {
-		if( listening ) {
-//println("stopListening")
-			serverVar.foreach(_.removeListener( serverUpdate ))
-			listening = false
+      sync.synchronized {
+   		if( listening ) {
+	   		serverVar.foreach(_.removeListener( serverUpdate ))
+		   	listening = false
             clearCounts
+         }
 		}
 	}
 
@@ -377,9 +374,9 @@ class ServerStatusPanel( flags: Int ) extends JPanel {
     }
 
 	private class ActionBoot extends AbstractAction {
-       import Server._
+      import Server._
 
-       private var cond: AnyRef = Offline
+      private var cond: AnyRef = Offline
 
 		def actionPerformed( e: ActionEvent ) {
 			if( cond == Offline ) {
@@ -390,23 +387,23 @@ class ServerStatusPanel( flags: Int ) extends JPanel {
 		}
 
       def serverUpdate( msg: AnyRef ) : Unit = msg match {
-          case Server.Running => {
+          case Server.Running => defer {
               cond = msg
               ggBoot.setText( txtStop )
               ggBoot.setEnabled( true )
               ggBusy.setVisible( false )
           }
-          case Server.Offline => {
+          case Server.Offline => defer {
               cond = msg
               ggBoot.setText( txtBoot )
               ggBoot.setEnabled( couldBoot )
               ggBusy.setVisible( false )
           }
-          case Server.Booting => {
-              cond = msg
-              ggBoot.setEnabled( false )
-              ggBusy.setVisible( true )
-          }
+//          case Server.Booting => {
+//              cond = msg
+//              ggBoot.setEnabled( false )
+//              ggBusy.setVisible( true )
+//          }
 //          case SuperColliderClient.ServerChanged( server ) => {
 //            serverPanel.server = server
 //          }
