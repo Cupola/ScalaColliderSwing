@@ -153,7 +153,7 @@ extends JPanel {
       // colors
 //      val actionNodeColor = new ColorAction( GROUP_NODES, VisualItem.FILLCOLOR, ColorLib.rgb( 200, 200, 200 ))
       val actionNodeColor = new RateColorAction( GROUP_NODES, VisualItem.FILLCOLOR )
-      val actionTextColor = new ColorAction( GROUP_NODES, VisualItem.TEXTCOLOR, ColorLib.rgb( 0, 0, 0 ))
+      val actionTextColor = new ColorAction( GROUP_NODES, VisualItem.TEXTCOLOR, ColorLib.rgb( 255, 255, 255 ))
 
       val actionEdgeColor = new RateColorAction( GROUP_EDGES, VisualItem.STROKECOLOR )
       val actionArrowColor = new RateColorAction( GROUP_EDGES, VisualItem.FILLCOLOR )
