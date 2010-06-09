@@ -2,7 +2,7 @@ import xml._
 import sbt.{ FileUtilities => FU, _}
 
 /**
- *    @version 0.11, 05-May-10
+ *    @version 0.14, 09-Jun-10
  */
 class ScalaColliderSwingProject( info: ProjectInfo ) extends ProguardProject( info ) {
    // stupidly, we need to redefine the dependancy here, because

@@ -30,41 +30,85 @@ package de.sciss.synth.swing
 
 import java.awt.EventQueue
 import java.io.File
-import de.sciss.synth.{ BootingServer, Server }
+import de.sciss.synth.{ BootingServer, Server, ServerOptionsBuilder }
 import actors.DaemonActor
 
 /**
- *    @version 0.12, 09-May-10
+ *    @version 0.14, 09-Jun-10
  */
 object ScalaColliderSwing {
    val name          = "ScalaCollider-Swing"
-   val version       = 0.13
+   val version       = 0.14
    val copyright     = "(C)opyright 2008-2010 Hanns Holger Rutz"
    def versionString = (version + 0.001).toString.substring( 0, 4 )
+
+   class REPLSupport( ssp: ServerStatusPanel, ntp: NodeTreePanel ) {
+      var s : Server = null
+      val so = new ServerOptionsBuilder()
+      private val sync = new AnyRef
+      private var booting: BootingServer = null
+
+      // ---- constructor ----
+      {
+         Runtime.getRuntime().addShutdownHook( new Thread { override def run = shutDown })
+         ssp.bootAction = Some( () => boot )
+      }
+
+      def boot { sync.synchronized {
+         shutDown
+         booting = Server.boot( options = so.build )
+         booting.addListener {
+            case BootingServer.Running( srv ) => {
+               sync.synchronized {
+                  booting = null
+                  s = srv
+                  ntp.server = Some( srv )
+               }
+            }
+         }
+         ssp.booting = Some( booting )
+         booting.start
+      }}
+
+      private def shutDown { sync.synchronized {
+         if( (s != null) && (s.condition != Server.Offline) ) {
+            s.quit
+            s = null
+         }
+         if( booting != null ) {
+            booting.abort
+            booting = null
+         }
+      }}
+   }
 
    def main( args: Array[ String ]) {
 //      EventQueue.invokeLater( this )
 //      start
       defer {
-         val sif  = new ScalaInterpreterFrame( /* ntp */ )
          val ssp  = new ServerStatusPanel()
          val sspw = ssp.makeWindow
          val ntp  = new NodeTreePanel()
          val ntpw = ntp.makeWindow
+         val so   = new ServerOptionsBuilder()
+         val repl = new REPLSupport( ssp, ntp )
+         val sif  = new ScalaInterpreterFrame( repl )
          ntpw.setLocation( sspw.getX, sspw.getY + sspw.getHeight + 32 )
          sspw.setVisible( true )
          ntpw.setVisible( true )
          sif.setLocation( sspw.getX + sspw.getWidth + 32, sif.getY )
          sif.setVisible( true )
-         val booting = Server.boot()
-         booting.addListener {
-            case BootingServer.Running( s ) => {
-               ssp.server = Some( s )
-               ntp.server = Some( s )
-               sif.withInterpreter( _.bind( "s", classOf[ Server ].getName, s ))
-            }
-         }
-         booting.start
+//         val booting = Server.boot()
+//         booting.addListener {
+//            case BootingServer.Running( s ) => {
+//               ssp.server = Some( s )
+//               ntp.server = Some( s )
+////               sif.withInterpreter( _.bind( "replSupport", classOf[ REPLSupport ].getName, s ))
+//               sif.withInterpreter( _.bind( "s", classOf[ Server ].getName, s ))
+//
+//            }
+//         }
+//         booting.start
       }
    }
 

@@ -38,11 +38,11 @@ import SwingConstants._
 import javax.swing.event.{ AncestorEvent, AncestorListener }
 import math._
 
-import de.sciss.synth.{ Model, Server }
+import de.sciss.synth.{ BootingServer, Model, Server }
 import de.sciss.synth.osc.OSCStatusReplyMessage
 
 /**
- *    @version 0.11, 20-May-10
+ *    @version 0.14, 09-Jun-10
  */
 object ServerStatusPanel {
   val COUNTS      = 0x01
@@ -80,26 +80,63 @@ class ServerStatusPanel( flags: Int ) extends JPanel {
 
    private val sync = new AnyRef
 
+   private val bootingUpdate: Model.Listener = {
+      case BootingServer.Running( srv ) => {
+         server_=( Some( srv ))
+         updateCounts( srv.counts )
+      }
+      case BootingServer.Aborted => {
+          clearCounts
+          actionBoot.serverUpdate( Server.Offline )
+      }
+      case msg => actionBoot.serverUpdate( msg )
+   }
+
    private val serverUpdate: Model.Listener = {
-      case Server.Counts( cnt ) => defer { if( isShowing ) updateCounts( cnt )}
-      case msg @ Server.Offline => defer {
+      case Server.Counts( cnt ) => if( isShowing ) updateCounts( cnt )
+      case msg @ Server.Offline => {
           clearCounts
           actionBoot.serverUpdate( msg )
       }
-      case msg => defer { actionBoot.serverUpdate( msg )}
+      case msg => actionBoot.serverUpdate( msg )
    }
 
-    private var serverVar: Option[ Server ] = None
-    def server = serverVar
-    def server_=( s: Option[ Server ]) {
-       sync.synchronized {
-          val wasListening = listening
-          if( wasListening ) stopListening
-          serverVar = s
-          defer { updateFrameTitle }
-          if( wasListening ) startListening
-       }
-    }
+   private var serverVar: Option[ Server ] = None
+   def server = sync.synchronized { serverVar }
+   def server_=( s: Option[ Server ]) {
+      sync.synchronized {
+         val wasListening = listening
+         if( wasListening ) stopListening
+         serverVar   = s
+         bootingVar  = None
+         updateFrameTitle
+         if( wasListening ) startListening
+      }
+   }
+
+   private var bootingVar: Option[ BootingServer ] = None
+   def booting = sync.synchronized { bootingVar }
+   def booting_=( b: Option[ BootingServer ]) {
+      sync.synchronized {
+         val wasListening = listening
+         if( wasListening ) stopListening
+         serverVar   = None
+         bootingVar  = b
+         updateFrameTitle
+         if( wasListening ) startListening
+      }
+   }
+
+   private var bootActionVar: Option[ () => Unit ] = None
+   def bootAction = sync.synchronized { bootActionVar }
+   def bootAction_=( a: Option[ () => Unit ]) {
+      sync.synchronized {
+         val wasListening = listening
+         if( wasListening ) stopListening
+         bootActionVar = a
+         if( wasListening ) startListening
+      }
+   }
 
 	// ---- constructor ----
    {
@@ -181,13 +218,16 @@ class ServerStatusPanel( flags: Int ) extends JPanel {
 		})
 	}
 
-   protected def couldBoot: Boolean = server.isDefined
+   protected def couldBoot: Boolean = sync.synchronized {
+      bootAction.isDefined
+   }
 
    private var frame: Option[ JFrame ] = None
 
-   private def updateFrameTitle {
+   private def updateFrameTitle = defer {
       sync.synchronized {
-         frame.foreach( _.setTitle( frameTitle + serverVar.map( s => " (" + s.name + ")" ).getOrElse( "" )))
+         val name = serverVar.getOrElse( bootingVar.orNull )
+         frame.foreach( _.setTitle( frameTitle + (if( name == null ) "" else " (" + name + ")") )) 
       }
    }
 
@@ -211,8 +251,9 @@ class ServerStatusPanel( flags: Int ) extends JPanel {
       sync.synchronized {
    		if( !listening ) {
    			listening = true
+            bootingVar.foreach(_.addListener( bootingUpdate ))
             serverVar.foreach(_.addListener( serverUpdate ))
-               serverUpdate( server.map( _.condition ) getOrElse Server.Offline )
+            defer { serverUpdate( server.map( _.condition ) getOrElse Server.Offline )}
          }
 		}
 	}
@@ -220,6 +261,7 @@ class ServerStatusPanel( flags: Int ) extends JPanel {
 	private def stopListening {
       sync.synchronized {
    		if( listening ) {
+            bootingVar.foreach(_.removeListener( bootingUpdate ))
 	   		serverVar.foreach(_.removeListener( serverUpdate ))
 		   	listening = false
             clearCounts
@@ -241,7 +283,7 @@ class ServerStatusPanel( flags: Int ) extends JPanel {
 //	}
 
    private def defer( code: => Unit ) {
-      EventQueue.invokeLater( new Runnable { def run = code })
+      if( EventQueue.isDispatchThread ) code else EventQueue.invokeLater( new Runnable { def run = code })
    }
    
 	private def updateCounts( cnt: OSCStatusReplyMessage ) {
@@ -363,15 +405,19 @@ class ServerStatusPanel( flags: Int ) extends JPanel {
 //		}
 	}
 
-    // subclasses may override this
-    protected def bootServer {
-//      server.foreach( _.boot )
-    }
+   // subclasses may override this
+   protected def bootServer {
+      sync.synchronized {
+         bootAction.foreach( _.apply() )
+      }
+   }
 
-    // subclasses may override this
-    protected def stopServer {
-      server.foreach( _.quit )
-    }
+   // subclasses may override this
+   protected def stopServer {
+      sync.synchronized {
+         server.foreach( _.quit )
+      }
+   }
 
 	private class ActionBoot extends AbstractAction {
       import Server._
@@ -386,27 +432,30 @@ class ServerStatusPanel( flags: Int ) extends JPanel {
 			}
 		}
 
-      def serverUpdate( msg: AnyRef ) : Unit = msg match {
-          case Server.Running => defer {
-              cond = msg
-              ggBoot.setText( txtStop )
-              ggBoot.setEnabled( true )
-              ggBusy.setVisible( false )
-          }
-          case Server.Offline => defer {
-              cond = msg
-              ggBoot.setText( txtBoot )
-              ggBoot.setEnabled( couldBoot )
-              ggBusy.setVisible( false )
-          }
-//          case Server.Booting => {
-//              cond = msg
-//              ggBoot.setEnabled( false )
-//              ggBusy.setVisible( true )
-//          }
+      def serverUpdate( msg: AnyRef ) = defer { msg match {
+         case Server.Running => {
+//println( "Running" )
+            cond = msg
+            ggBoot.setText( txtStop )
+            ggBoot.setEnabled( true )
+            ggBusy.setVisible( false )
+         }
+         case Server.Offline => {
+//println( "Offline" )
+            cond = msg
+            ggBoot.setText( txtBoot )
+            ggBoot.setEnabled( couldBoot )
+            ggBusy.setVisible( false )
+         }
+         case BootingServer.Booting => {
+//println( "Booting" )
+            cond = msg
+            ggBoot.setEnabled( false )
+            ggBusy.setVisible( true )
+         }
 //          case SuperColliderClient.ServerChanged( server ) => {
 //            serverPanel.server = server
 //          }
-      }
+      }}
 	} // class actionBootClass
 }

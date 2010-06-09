@@ -29,16 +29,17 @@ package de.sciss.synth.swing
 
 import java.awt.GraphicsEnvironment
 import de.sciss.scalainterpreter.{ LogPane, ScalaInterpreterPane }
-import de.sciss.synth.Server
+import de.sciss.synth.{ Server, ServerOptionsBuilder }
 import tools.nsc.Interpreter
 import java.io.PrintStream
 import javax.swing.{ JFrame, JSplitPane, SwingConstants, WindowConstants }
+import de.sciss.synth.swing.ScalaColliderSwing.REPLSupport
 
 /**
- *    @version 0.12, 21-May-10
+ *    @version 0.14, 09-Jun-10
  */
-class ScalaInterpreterFrame( /* s: Server, ntp: NodeTreePanel,*/ )
-extends JFrame( "Scala Interpreter" ) {
+class ScalaInterpreterFrame( replSupport: REPLSupport )
+extends JFrame( "ScalaCollider Interpreter" ) {
 
    val pane = new ScalaInterpreterPane
    private val sync = new AnyRef
@@ -50,8 +51,8 @@ extends JFrame( "Scala Interpreter" ) {
 
       pane.initialText = pane.initialText +
 """
-s.options.programPath.value = ".../scsynth"
-s.boot
+so.programPath = "/path/to/scsynth"
+boot
 
 // analog bubbles
 val x = {
@@ -93,6 +94,7 @@ import de.sciss.synth.swing.SynthGraphPanel._
 import de.sciss.synth.io._
 import de.sciss.synth.osc._
 import de.sciss.synth.ugen._
+import replSupport._
 """
       )
 
@@ -100,8 +102,8 @@ import de.sciss.synth.ugen._
          sync.synchronized {
             inCode.foreach( _.apply( in ))
          }
-//         in.bind( "s", classOf[ Server ].getName, s )
-//         in.bind( "ntp", classOf[ NodeTreePanel ].getName, ntp )
+         in.bind( "replSupport", classOf[ REPLSupport ].getName, replSupport )
+//         in.bind( "s", classOf[ Server ].getName, ntp )
 //         in.bind( "in", classOf[ Interpreter ].getName, in )
       })
 
