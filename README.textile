@@ -1,4 +1,4 @@
-h2. ScalaCollider-Swing ==<small>-- version 0.14 (built 09-Jun-10) --</small>==
+h2. ScalaCollider-Swing ==<small>-- version 0.15 (built 11-Jun-10) --</small>==
 
 h3. statement
 
