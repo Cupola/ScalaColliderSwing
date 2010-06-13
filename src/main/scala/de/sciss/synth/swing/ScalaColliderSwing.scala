@@ -30,9 +30,9 @@ package de.sciss.synth.swing
 
 import java.awt.EventQueue
 import java.io.File
-import de.sciss.synth.{ BootingServer, Server, ServerOptionsBuilder }
 import actors.DaemonActor
-
+import de.sciss.synth._
+import de.sciss.synth.ugen.SinOsc
 /**
  *    @version 0.14, 09-Jun-10
  */
@@ -83,34 +83,29 @@ object ScalaColliderSwing {
    }
 
    def main( args: Array[ String ]) {
-//      EventQueue.invokeLater( this )
-//      start
-      defer {
-         val ssp  = new ServerStatusPanel()
-         val sspw = ssp.makeWindow
-         val ntp  = new NodeTreePanel()
-         val ntpw = ntp.makeWindow
-         val so   = new ServerOptionsBuilder()
-         val repl = new REPLSupport( ssp, ntp )
-         val sif  = new ScalaInterpreterFrame( repl )
-         ntpw.setLocation( sspw.getX, sspw.getY + sspw.getHeight + 32 )
-         sspw.setVisible( true )
-         ntpw.setVisible( true )
-         sif.setLocation( sspw.getX + sspw.getWidth + 32, sif.getY )
-         sif.setVisible( true )
-//         val booting = Server.boot()
-//         booting.addListener {
-//            case BootingServer.Running( s ) => {
-//               ssp.server = Some( s )
-//               ntp.server = Some( s )
-////               sif.withInterpreter( _.bind( "replSupport", classOf[ REPLSupport ].getName, s ))
-//               sif.withInterpreter( _.bind( "s", classOf[ Server ].getName, s ))
-//
-//            }
-//         }
-//         booting.start
-      }
+      defer { buildGUI }
+//      test
    }
+
+   def buildGUI {
+      val ssp  = new ServerStatusPanel()
+      val sspw = ssp.makeWindow
+      val ntp  = new NodeTreePanel()
+      val ntpw = ntp.makeWindow
+      val so   = new ServerOptionsBuilder()
+      val repl = new REPLSupport( ssp, ntp )
+      val sif  = new ScalaInterpreterFrame( repl )
+      ntpw.setLocation( sspw.getX, sspw.getY + sspw.getHeight + 32 )
+      sspw.setVisible( true )
+      ntpw.setVisible( true )
+      sif.setLocation( sspw.getX + sspw.getWidth + 32, sif.getY )
+      sif.setVisible( true )
+   }
+
+//   def test {
+//      val x = SynthGraph.wrapOut( SinOsc.ar )
+//      SynthGraphPanel.viewDef( SynthDef( "test", x ))
+//   }
 
    private def defer( thunk: => Unit ) {
       EventQueue.invokeLater( new Runnable {
