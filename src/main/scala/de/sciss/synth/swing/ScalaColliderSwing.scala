@@ -58,11 +58,13 @@ object ScalaColliderSwing {
          shutDown
          booting = Server.boot( options = so.build )
          booting.addListener {
+            case BootingServer.Preparing( srv ) => {
+               ntp.server = Some( srv )
+            }
             case BootingServer.Running( srv ) => {
                sync.synchronized {
                   booting = null
                   s = srv
-                  ntp.server = Some( srv )
                }
             }
          }
