@@ -442,7 +442,7 @@ class NodeTreePanel extends JPanel {
 
    private def updateFrameTitle {
       sync.synchronized {
-         frame.foreach( _.setTitle( frameTitle + serverVar.map( s => " (" + s.name + ")" ).getOrElse( "" )))
+         frame.foreach( _.setTitle( frameTitle + serverVar.map( s => " (" + s + ")" ).getOrElse( "" )))
       }
    }
 
