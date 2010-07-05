@@ -1,5 +1,6 @@
 /*
  *  ScalaInterpreterFrame.scala
+ *  (ScalaCollider-Swing)
  *
  *  Copyright (c) 2008-2010 Hanns Holger Rutz. All rights reserved.
  *

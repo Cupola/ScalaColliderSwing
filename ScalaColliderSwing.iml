@@ -30,7 +30,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib_managed/scala_2.8.0.RC4/compile/scalacollider_2.8.0.RC4-0.15.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib_managed/scala_2.8.0.RC6/compile/prefuse-beta-20071021.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -39,7 +39,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib_managed/scala_2.8.0.RC4/compile/scalaaudiofile_2.8.0.RC4-0.12.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib_managed/scala_2.8.0.RC6/compile/jsyntaxpane-0.9.5-b29.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -48,7 +48,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib_managed/scala_2.8.0.RC4/compile/jsyntaxpane-0.9.5-b29.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib_managed/scala_2.8.0.RC6/compile/scalainterpreterpane_2.8.0.RC6-0.16.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -57,7 +57,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib_managed/scala_2.8.0.RC4/compile/prefuse-beta-20071021.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib_managed/scala_2.8.0.RC6/compile/scalacollider_2.8.0.RC6-0.16.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -66,7 +66,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib_managed/scala_2.8.0.RC4/compile/scalainterpreterpane_2.8.0.RC4-0.15.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib_managed/scala_2.8.0.RC6/compile/scalaosc_2.8.0.RC6-0.17.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -75,7 +75,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib_managed/scala_2.8.0.RC4/compile/scalaosc_2.8.0.RC4-0.16.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib_managed/scala_2.8.0.RC6/compile/scalaaudiofile_2.8.0.RC6-0.13.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

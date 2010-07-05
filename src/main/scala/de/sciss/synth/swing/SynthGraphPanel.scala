@@ -89,10 +89,10 @@ extends JPanel {
    val g                    = {
       val g       = new PGraph( true )
       val nodes   = g.getNodeTable()
-      PrefuseHelper.addColumn( nodes, COL_LABEL,  classOf[ String ])
-      PrefuseHelper.addColumn( nodes, COL_RATE,   classOf[ Rate ])
+      nodes.addColumn( COL_LABEL,  classOf[ String ])
+      nodes.addColumn( COL_RATE,   classOf[ Rate ])
       val edges   = g.getEdgeTable()
-      PrefuseHelper.addColumn( edges, COL_RATE,   classOf[ Rate ])
+      edges.addColumn( COL_RATE,   classOf[ Rate ])
 //      PrefuseHelper.addColumn( nodes, COL_ICON,   classOf[ String ])
 //      PrefuseHelper.addColumn( nodes, COL_PAUSED, classOf[ Boolean ])
 //      FIELDS.foreach( PrefuseHelper.addColumn( nodes, _, classOf[ PNode ]))

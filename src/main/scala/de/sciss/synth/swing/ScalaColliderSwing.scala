@@ -45,6 +45,7 @@ object ScalaColliderSwing {
    class REPLSupport( ssp: ServerStatusPanel, ntp: NodeTreePanel ) {
       var s : Server = null
       val so = new ServerOptionsBuilder()
+//var ntpx : NodeTreePanel = null
       private val sync = new AnyRef
       private var booting: BootingServer = null
 
@@ -60,6 +61,7 @@ object ScalaColliderSwing {
          booting.addListener {
             case BootingServer.Preparing( srv ) => {
                ntp.server = Some( srv )
+//ntpx = ntp
             }
             case BootingServer.Running( srv ) => {
                sync.synchronized {

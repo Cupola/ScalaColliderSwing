@@ -453,6 +453,7 @@ class ServerStatusPanel( flags: Int ) extends JPanel {
             ggBoot.setEnabled( false )
             ggBusy.setVisible( true )
          }
+         case _ =>
 //          case SuperColliderClient.ServerChanged( server ) => {
 //            serverPanel.server = server
 //          }
