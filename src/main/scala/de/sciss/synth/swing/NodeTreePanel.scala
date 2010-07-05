@@ -317,18 +317,23 @@ class NodeTreePanel extends JPanel {
       val pPred   = iInfo.pred
       val pSucc   = iInfo.succ
       val pParent = iInfo.parent
-      val iParent = if( pParent != null ) pParent.get( INFO ).asInstanceOf[ NodeInfo ] else null 
+      val iParent = if( pParent != null ) {
+         iInfo.parent = null
+         pParent.get( INFO ).asInstanceOf[ NodeInfo ]
+      } else null
       if( pPred == null ) {
          if( iParent != null ) iParent.head = pSucc
       } else {
          val iPred   = pPred.get( INFO ).asInstanceOf[ NodeInfo ]
          iPred.succ  = pSucc
+         iInfo.pred  = null
       }
       if( pSucc == null ) {
          if( iParent != null ) iParent.tail = pPred
       } else {
          val iSucc   = pSucc.get( INFO ).asInstanceOf[ NodeInfo ]
          iSucc.pred  = pPred
+         iInfo.succ  = null
       }
    }
 
@@ -411,8 +416,8 @@ class NodeTreePanel extends JPanel {
 //            val iOld       = pOld.get( INFO ).asInstanceOf[ NodeInfo ]
 //            deleteChild( node, pOld )
             val iNode   = pNode.get( INFO ).asInstanceOf[ NodeInfo ]
-            removeChild( pNode )
             val oldEdge = t.getEdge( iNode.parent, pNode )
+            removeChild( pNode )
             t.removeEdge( oldEdge )
             map.get( info.parentID ).map { pParent =>
                insertChild( pNode, pParent, info, iNode )
