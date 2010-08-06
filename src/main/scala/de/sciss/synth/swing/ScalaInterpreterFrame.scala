@@ -53,6 +53,7 @@ extends JFrame( "ScalaCollider Interpreter" ) {
       pane.initialText = pane.initialText +
 """
 so.programPath = "/path/to/scsynth"
+so.transport = de.sciss.scalaosc.TCP
 boot
 
 // analog bubbles
