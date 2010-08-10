@@ -90,7 +90,7 @@ viewDef( df )
       pane.initialCode = Some(
 """
 import math._
-import de.sciss.scalaosc.{ OSCBundle, OSCMessage, OSCPacket }
+import de.sciss.osc.{ OSCBundle, OSCMessage, OSCPacket }
 import de.sciss.synth._
 import de.sciss.synth.swing.SynthGraphPanel._
 import de.sciss.synth.io._
