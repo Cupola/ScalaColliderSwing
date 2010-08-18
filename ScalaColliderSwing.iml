@@ -75,7 +75,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib_managed/scala_2.8.0/compile/prefuse-beta-20071021.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib_managed/scala_2.8.0/compile/prefuse-beta-20100818.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

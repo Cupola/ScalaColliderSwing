@@ -2,13 +2,9 @@ import xml._
 import sbt.{ FileUtilities => FU, _}
 
 class ScalaColliderSwingProject( info: ProjectInfo ) extends ProguardProject( info ) {
-   // stupidly, we need to redefine the dependancy here, because
-   // for some reason, sbt will otherwise try to look in the maven repo
-   val dep1 = "jsyntaxpane" % "jsyntaxpane" % "0.9.5-b29" from "http://jsyntaxpane.googlecode.com/files/jsyntaxpane-0.9.5-b29.jar"
-   val dep2 = "de.sciss" %% "scalaaudiofile" % "0.13"
-   val dep3 = "de.sciss" %% "scalacollider" % "0.17"
-   val dep4 = "de.sciss" %% "scalainterpreterpane" % "0.16"
-   val dep5 = "prefuse" % "prefuse" % "beta-20071021" from "http://github.com/downloads/Sciss/ScalaColliderSwing/prefuse-beta-20071021.jar"
+   val scalaCollider          = "de.sciss" %% "scalacollider" % "0.17"
+   val scalaInterpreterPane   = "de.sciss" %% "scalainterpreterpane" % "0.16"
+   val prefuse                = "prefuse" % "prefuse" % "beta-SNAPSHOT" from "http://github.com/downloads/Sciss/ScalaColliderSwing/prefuse-beta-SNAPSHOT.jar"
 
    val camelCaseName          = "ScalaColliderSwing"
    def appBundleName          = camelCaseName + ".app"
