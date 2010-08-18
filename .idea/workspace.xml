@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="5caeb2ec-9cb2-4170-9696-5224f41c0e3c" name="Default" comment="" />
-    <ignored path="ScalaColliderSwing.iws" />
     <ignored path=".idea/workspace.xml" />
+    <ignored path="ScalaColliderSwing.iws" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,19 +92,19 @@
   <component name="FileColors" enabled="true" enabledForTabs="true" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ScalaColliderSwing.scala" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="ScalaColliderSwing.scala" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/project/build/ScalaColliderSwing.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="20" selection-start="287" selection-end="445" vertical-scroll-proportion="0.02027027">
+            <state line="4" column="69" selection-start="207" selection-end="207" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="build.properties" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="build.properties" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/project/build.properties">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="20" selection-start="150" selection-end="150" vertical-scroll-proportion="0.0">
+            <state line="5" column="20" selection-start="150" selection-end="150" vertical-scroll-proportion="0.09933775">
               <folding />
             </state>
           </provider>
@@ -354,8 +354,8 @@
         </subPane>
       </pane>
       <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="Favorites" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -565,7 +565,7 @@
     <supportedVersion>125</supportedVersion>
   </component>
   <component name="ToolWindowManager">
-    <frame x="185" y="22" width="1396" height="878" extended-state="0" />
+    <frame x="0" y="22" width="1396" height="878" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -670,21 +670,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/de/sciss/synth/swing/ScalaInterpreterFrame.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="93" column="0" selection-start="2736" selection-end="2736" vertical-scroll-proportion="0.01986755">
+        <state line="93" column="0" selection-start="2736" selection-end="2736" vertical-scroll-proportion="0.01986755" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project/build/ScalaColliderSwing.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="69" selection-start="207" selection-end="207" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/project/build.properties">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="20" selection-start="150" selection-end="150" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/project/build/ScalaColliderSwing.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="20" selection-start="287" selection-end="445" vertical-scroll-proportion="0.02027027">
+        <state line="5" column="20" selection-start="150" selection-end="150" vertical-scroll-proportion="0.09933775">
           <folding />
         </state>
       </provider>
